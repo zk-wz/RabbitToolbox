@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/controls/OMenuBar.qml</file>
+        <file>qml/controls/OButton.qml</file>
+        <file>qml/controls/OMenu.qml</file>
+    </qresource>
+</RCC>
