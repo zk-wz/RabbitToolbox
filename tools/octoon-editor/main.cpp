@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 	MainWindow w;
+	w.resize(1376, 768);
 	w.show();
 
 	a.setStyleSheet(getQssContent(":/qss/default_qss.qss"));
