@@ -1,9 +1,20 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
+#include <memory>
+
+#include <QCoreApplication>
 #include <QMainWindow>
 #include <QDockWidget>
+#include <QPaintEvent>
+#include <QResizeEvent>
 #include <QtQuickWidgets/QQuickWidget>
+
+#include <octoon/octoon.h>
+
+#include <octoon/game_application.h>
+#include <octoon/input/input_event.h>
 
 #include "widgets/OViewWidget.h"
 
