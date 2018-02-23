@@ -38,6 +38,8 @@ public:
 	void wheelEvent(QWheelEvent* event);  
 
 	virtual QPaintEngine *paintEngine() const { return NULL; }
+
+	void play();
 private:
 	octoon::GameApplicationPtr gameApp_;
 	octoon::input::InputMousePtr inputMessage_;
