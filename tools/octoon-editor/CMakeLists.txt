@@ -10,6 +10,10 @@ SET(PLATFORM_LIST
     ${SOURCE_PATH}/mainwindow.cpp
     ${HEADER_PATH}/widgets/OViewWidget.h
     ${SOURCE_PATH}/widgets/OViewWidget.cpp
+    ${HEADER_PATH}/widgets/OMainWindow.h
+    ${HEADER_PATH}/widgets/OTitleBar.h
+    ${HEADER_PATH}/widgets/ODockWidget.h
+    ${HEADER_PATH}/widgets/ODockTitleBar.h
 )
 SOURCE_GROUP(${LIB_NAME} FILES ${PLATFORM_LIST})
 

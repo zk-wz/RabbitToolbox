@@ -20,10 +20,12 @@
 #include <octoon/game_application.h>
 #include <octoon/input/input_event.h>
 
-#include "widgets/OViewWidget.h"
+#include <octoon/editor/widgets/OMainWindow.h>
+#include <octoon/editor/widgets/OViewWidget.h>
+#include <octoon/editor/widgets/ODockWidget.h>
 
 
-class MainWindow : public QMainWindow
+class MainWindow : public OMainWindow
 {
     Q_OBJECT
 
@@ -32,20 +34,14 @@ public:
     ~MainWindow();
 
 protected:
-    QDockWidget *viewDock;
-    QDockWidget *commandDock;
-    QDockWidget *hierarchyDock;
-	QDockWidget *materialDock;
+    ODockWidget *viewDock;
+    ODockWidget *commandDock;
+    ODockWidget *hierarchyDock;
+	ODockWidget *materialDock;
     QQuickWidget *commandPanel;
     QQuickWidget *hierarchyPanel;
 	QQuickWidget *materialPanel;
     OViewWidget *viewPanel;
-
-	QMenuBar *menuBar;
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *viewMenu;
-    QMenu *helpMenu;
 };
 
 #endif // MAINWINDOW_H

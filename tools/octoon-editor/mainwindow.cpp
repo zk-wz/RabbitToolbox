@@ -1,25 +1,15 @@
 #include <octoon/editor/mainwindow.h>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    OMainWindow(parent)
 {
 	// menubar
-	menuBar = new QMenuBar(this);
-	fileMenu = new QMenu(tr("File"), this);
-    editMenu = new QMenu(tr("Edit"), this);
-    viewMenu = new QMenu(tr("View"), this);
-    helpMenu = new QMenu(tr("Help"), this);
 
-	menuBar->addMenu(fileMenu);
-    menuBar->addMenu(editMenu);
-    menuBar->addMenu(viewMenu);
-    menuBar->addMenu(helpMenu);
-	this->setMenuBar(menuBar);
     // dock
-    viewDock = new QDockWidget(this);
-    commandDock = new QDockWidget(this);
-    hierarchyDock = new QDockWidget(this);
-	materialDock = new QDockWidget(this);
+    viewDock = new ODockWidget(this);
+    commandDock = new ODockWidget(this);
+    hierarchyDock = new ODockWidget(this);
+	materialDock = new ODockWidget(this);
 
     // panel
     commandPanel = new QQuickWidget(commandDock);

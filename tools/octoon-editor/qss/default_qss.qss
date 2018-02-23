@@ -1,66 +1,5 @@
-QMainWindow,QDialog{    
-    background: rgb(30, 30, 30);    
-}
-
-/* === QMenuBar === */  
-QMenuBar {  
-    background-color: rgb(30, 30, 30);  
-    color: white;  
-}
-  
-QMenuBar::item {  
-    background: transparent;  
-}  
-  
-QMenuBar::item:disabled {  
-    color: gray;  
-}
-  
-QMenuBar::item:selected {  
-    background-color: rgb(100, 100, 100);
-}
-  
-QMenuBar::item:pressed {  
-    background: #444444;  
-}
-
-/* === QMenu === */  
-QMenu {
-    background-color: rgb(30, 30, 30);  
-    border: 1px solid gray;  
-    color: white;  
-    padding: 1px;  
-}
-  
-QMenu::item {
-    padding: 2px 25px 2px 20px;
-}  
-  
-QMenu::item:disabled {  
-    color: #666666;  
-}  
-  
-QMenu::item:selected {  
-    border-color: gray;
-    background-color: rgb(100, 100, 100); 
-}
-  
-QMenu::icon:checked {  
-  
-}
-  
-QMenu::separator {  
-    height: 1px;  
-    background: #222222;  
-    margin-left: 10px;  
-    margin-right: 10px;  
-    margin-top: 1px;  
-    margin-bottom: 1px;  
-}  
-
-QMenu::indicator {  
-    width: 13px;  
-    height: 13px;  
+QMainWindow,QDialog,QDockWidget{    
+    background: #535353;
 }
 
 /* titlebar */
@@ -120,36 +59,6 @@ SPushButton:pressed {
     background-color: rgb(95,138,193);
     border-style: inset;
 }
-/* SToolBarButton */
-SToolBarButton {
-    background-color: rgb(80,80,80);
-    border-style: outset;
-    border-width: 1px;
-    border-radius: 5px;
-    border-color: rgb(30,30,30);
-    color:white;
-    padding: 3px;
-}
-
-SToolBarButton:hover {
-    background-color: rgb(100,100,100);
-}
-
-SToolBarButton:selected {
-    background-color: rgb(95,138,193);
-    border-style: inset;
-}
-
-SToolBarButton:checked {
-    background-color: rgb(95,138,193);
-    border-style: inset;
-}
-
-SToolBarButton:pressed {
-    background-color: rgb(95,138,193);
-    border-style: inset;
-}
-
 
 /* tabwidget */
 QTabWidget::pane {
@@ -182,41 +91,6 @@ QTabBar::tab:selected {
     background: rgb(30, 30, 30);
 }
 
-
-/* groupbox */
-QGroupBox{
-    color: white;
-}
-
-/* SComboBox */
-SComboBox {
-     border: 1px solid gray;  
-     border-radius: 3px;
-     padding: 1px 18px 1px 3px;  
-     min-width: 6em;  
-     color: white;
-     background: rgb(80,80,80); 
-}
-
-SComboBox::drop-down {  
-     subcontrol-origin:paddind;    
-     subcontrol-position: top right;  
-     width: 15px;  
-     border: none;   
- }  
-  
- SComboBox::down-arrow {  
-     image: url(./resource/images/arrow/arrow-down.png);
- }
-
- /* modifier stack */
-#modifierStack{
-    border: 1px solid rgb(255, 255, 255);
-    background: rgb(30, 30, 30);
-    color: white;
-}
-
-
 #modifierStack::item
 {
     padding-top:2px;
@@ -236,21 +110,16 @@ SComboBox::drop-down {
 
 /* dock widget */
 QDockWidget{
-    border:1px solid lightgray;
+    border:1px solid #535353;
+    color:white;
     titlebar-close-icon: url(resource/images/button/closeButton_white.png);
     titlebar-normal-icon: url(resource/images/button/maximizeButton_white.png);
 }
 
 QDockWidget::title {
     text-align: left;/* align the text to the left */
-    background: lightgray;
+    background: #535353;
     padding-left:5px;
-}
-
-QDockWidget::close-button,QDockWidget::float-button {
-    border:1px solid transparent;
-    background: darkgray;
-    padding:0px;
 }
 
 QDockWidget::close-button:hover,QDockWidget::float-button:hover {
@@ -262,17 +131,34 @@ QDockWidget::close-button:pressed,QDockWidget::float-button:pressed {
 }
 
 QDockWidget::close-button {
-    subcontrol-position: top right;
+    subcontrol-position: center right;
     subcontrol-origin: margin;
     position: absolute;
     top:0px; right:0px; bottom:0px;
-    width:14px;
+    width:20px;
+    height:20px;
 }
 
 QDockWidget::float-button {
-    subcontrol-position: top right;
+    subcontrol-position: center right;
     subcontrol-origin: margin;
     position: absolute;
-    top:0px; right:16px; bottom:0px;
-    width:14px;
+    top:0px; right:20px; bottom:0px;
+    width:20px;
+    height:20px;
+}
+
+QDockWidget QPushButton{
+    border: none;
+    background:#535353;
+}
+
+QDockWidget QPushButton:hover{
+    border: none;
+    background:#454545;
+}
+
+QDockWidget QPushButton:pressed{
+    border: none;
+    background:#383838;
 }
