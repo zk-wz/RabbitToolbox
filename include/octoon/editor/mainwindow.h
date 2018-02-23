@@ -10,6 +10,9 @@
 #include <QDockWidget>
 #include <QPaintEvent>
 #include <QResizeEvent>
+
+#include <QMenuBar>
+#include <QMenu>
 #include <QtQuickWidgets/QQuickWidget>
 
 #include <octoon/octoon.h>
@@ -37,6 +40,12 @@ protected:
     QQuickWidget *hierarchyPanel;
 	QQuickWidget *materialPanel;
     OViewWidget *viewPanel;
+
+	QMenuBar *menuBar;
+    QMenu *fileMenu;
+    QMenu *editMenu;
+    QMenu *viewMenu;
+    QMenu *helpMenu;
 };
 
 #endif // MAINWINDOW_H

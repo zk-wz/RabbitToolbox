@@ -10,7 +10,6 @@ OViewWidget::OViewWidget(QWidget *parent) : QWidget(parent)
 
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(repaint()));
-	timer->start(30);
 }
 
 bool OViewWidget::OctoonInit(const char* gamedir, const char* scenename) noexcept
@@ -101,6 +100,7 @@ void OViewWidget::resizeEvent(QResizeEvent *e)
 			event.change.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
 			gameApp_->send_input_event(event);
 		}
+		this->repaint();
 	}
 }
 
@@ -119,6 +119,7 @@ void OViewWidget::mouseMoveEvent(QMouseEvent * e)
 		event.motion.windowID = (std::uint64_t)winId();
 
 		gameApp_->send_input_event(event);
+		this->repaint();
 	}
 }
 
@@ -144,6 +145,7 @@ void OViewWidget::mousePressEvent(QMouseEvent * e)
 			event.button.button = octoon::input::InputButton::MIDDLE;
 
 		gameApp_->send_input_event(event);
+		this->repaint();
 	}
 }
 
@@ -169,6 +171,7 @@ void OViewWidget::mouseReleaseEvent(QMouseEvent * e)
 			event.button.button = octoon::input::InputButton::MIDDLE;
 
 		gameApp_->send_input_event(event);
+		this->repaint();
 	}
 }
 
@@ -193,6 +196,7 @@ void OViewWidget::mouseDoubleClickEvent(QMouseEvent * e)
 		doubleClick.button.which = 0;
 
 		gameApp_->send_input_event(doubleClick);
+		this->repaint();
 	}
 }
 
@@ -206,6 +210,7 @@ void OViewWidget::wheelEvent(QWheelEvent * e)
 		event.wheel.windowID = (std::uint64_t)winId();
 
 		gameApp_->send_input_event(event);
+		this->repaint();
 	}
 }
 
