@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     hierarchyPanel = new QQuickWidget(hierarchyDock);
     hierarchyPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OButton.qml"));
 	materialPanel = new QQuickWidget(materialDock);
-	materialPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OButton.qml"));
+	materialPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/material_panel.qml"));
     viewPanel = new OViewWidget(viewDock);
 
     viewDock->setWidget(viewPanel);
