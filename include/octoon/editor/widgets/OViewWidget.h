@@ -9,6 +9,9 @@
 #include <QPaintEngine>
 #include <QPaintEvent>
 #include <QResizeEvent>
+#include<QMouseEvent>
+#include<QWheelEvent>
+#include <QDateTime>
 #include <QtQuickWidgets/QQuickWidget>
 
 #include <octoon/octoon.h>
@@ -28,6 +31,11 @@ public:
 
 	void paintEvent(QPaintEvent * e);
 	void resizeEvent(QResizeEvent * e);
+	void mousePressEvent(QMouseEvent* event);
+	void mouseMoveEvent(QMouseEvent* event);
+	void mouseReleaseEvent(QMouseEvent* event);
+	void mouseDoubleClickEvent(QMouseEvent* event);
+	void wheelEvent(QWheelEvent* event);  
 
 	virtual QPaintEngine *paintEngine() const { return NULL; }
 private:
