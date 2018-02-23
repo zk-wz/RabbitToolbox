@@ -6,6 +6,7 @@
 #include <QCoreApplication>
 #include <QWidget>
 #include <QDockWidget>
+#include <QPaintEngine>
 #include <QPaintEvent>
 #include <QResizeEvent>
 #include <QtQuickWidgets/QQuickWidget>
@@ -27,6 +28,8 @@ public:
 
 	void paintEvent(QPaintEvent * e);
 	void resizeEvent(QResizeEvent * e);
+
+	virtual QPaintEngine *paintEngine() const { return NULL; }
 private:
 	octoon::GameApplicationPtr gameApp_;
 	octoon::input::InputMousePtr inputMessage_;
