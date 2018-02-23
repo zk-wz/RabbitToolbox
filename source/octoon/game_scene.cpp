@@ -43,10 +43,9 @@ namespace octoon
 
 	GameScene::~GameScene() noexcept
 	{
-		assert(root_.unique());
+		assert(root_.use_count() == 1);
 
 		this->set_active(false);
-		root_.unique();
 
 		GameSceneManager::instance()->_unsetScene(this);
 	}
@@ -100,13 +99,13 @@ namespace octoon
 	}
 
 	std::size_t
-	GameScene::get_instance_id() const noexcept
+	GameScene::id() const noexcept
 	{
 		return instance_id_;
 	}
 
-	GameObjectPtr
-	GameScene::get_root_object() const noexcept
+	const GameObjectPtr&
+	GameScene::root() const noexcept
 	{
 		return root_;
 	}

@@ -1,4 +1,5 @@
 #include <octoon/input/input_keyboard.h>
+#include <cstring> // std::memset
 
 namespace octoon
 {
@@ -36,7 +37,7 @@ namespace octoon
 			return key_state_[key].pressed;
 		}
 
-		InputKeyboardPtr
+		IInputKeyboardPtr
 		DefaultInputKeyboard::clone() const noexcept
 		{
 			return std::make_shared<DefaultInputKeyboard>();

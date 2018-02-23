@@ -3,6 +3,8 @@
 #include <imgui.h>
 #include <imgui_dock.h>
 
+#include <cstring> // std::memcpy
+
 using namespace octoon::graphics;
 
 namespace octoon
@@ -40,6 +42,7 @@ namespace octoon
 			, window_(nullptr)
 			, imguiPath_("../../ui/imgui.layout")
 			, imguiDockPath_("../../ui/imgui_dock.layout")
+			, ui_context_(nullptr)
 		{
 		}
 
@@ -56,6 +59,9 @@ namespace octoon
 #if _WINDOWS
 			assert(::IsWindow((HWND)window));
 #endif
+
+			ui_context_ = ImGui::CreateContext();
+			ImGui::SetCurrentContext(ui_context_);
 
 			GuiStyle style;
 			set_style(style);
@@ -110,7 +116,7 @@ namespace octoon
 			GraphicsDataDesc dataDesc;
 			dataDesc.setType(GraphicsDataType::StorageVertexBuffer);
 			dataDesc.setStreamSize(0xFFF * sizeof(ImDrawVert));
-			dataDesc.setUsage(GraphicsUsageFlagBits::GraphicsUsageFlagWriteBit);
+			dataDesc.setUsage(GraphicsUsageFlagBits::WriteBit);
 
 			vbo_ = device_->createGraphicsData(dataDesc);
 			if (!vbo_)
@@ -119,15 +125,15 @@ namespace octoon
 			GraphicsDataDesc elementDesc;
 			elementDesc.setType(GraphicsDataType::StorageIndexBuffer);
 			elementDesc.setStreamSize(0xFFF * sizeof(ImDrawIdx));
-			elementDesc.setUsage(GraphicsUsageFlagBits::GraphicsUsageFlagWriteBit);
+			elementDesc.setUsage(GraphicsUsageFlagBits::WriteBit);
 
 			ibo_ = device_->createGraphicsData(elementDesc);
 			if (!ibo_)
 				return false;
 
 			GraphicsProgramDesc programDesc;
-			programDesc.addShader(device_->createShader(GraphicsShaderDesc(GraphicsShaderStageVertexBit, vert, "main", graphics::GraphicsShaderLang::GLSL)));
-			programDesc.addShader(device_->createShader(GraphicsShaderDesc(GraphicsShaderStageFragmentBit, frag, "main", graphics::GraphicsShaderLang::GLSL)));
+			programDesc.addShader(device_->createShader(GraphicsShaderDesc(GraphicsShaderStageFlagBits::VertexBit, vert, "main", graphics::GraphicsShaderLang::GLSL)));
+			programDesc.addShader(device_->createShader(GraphicsShaderDesc(GraphicsShaderStageFlagBits::FragmentBit, frag, "main", graphics::GraphicsShaderLang::GLSL)));
 			auto program = device_->createProgram(programDesc);
 
 			GraphicsInputLayoutDesc layoutDesc;
@@ -198,6 +204,12 @@ namespace octoon
 				ImGui::Shutdown();
 
 				initialize_ = false;
+			}
+
+			if (ui_context_)
+			{
+				ImGui::DestroyContext(ui_context_);
+				ui_context_ = nullptr;
 			}
 		}
 
@@ -371,9 +383,18 @@ namespace octoon
 		}
 
 		void
-		System::render() noexcept
+		System::render_begin() noexcept
+		{
+			ImGui::SetCurrentContext(ui_context_);
+			ImGui::NewFrame();
+		}
+
+		void
+		System::render_end() noexcept
 		{
 			assert(vbo_ && ibo_);
+
+			ImGui::Render();
 
 			auto drawData = ImGui::GetDrawData();
 			if (!drawData)
@@ -447,10 +468,10 @@ namespace octoon
 
 			auto& io = ImGui::GetIO();
 
-			context_->setViewport(0, Viewport(0, 0, io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y));
-			context_->setScissor(0, Scissor(0, 0, io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y));
+			context_->setViewport(0, float4(0, 0, io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y));
+			context_->setScissor(0, uint4(0, 0, io.DisplayFramebufferScale.x, io.DisplayFramebufferScale.y));
 
-			context_->clearFramebuffer(0, GraphicsClearFlagBits::GraphicsClearFlagColorBit, float4(0.1,0.2,0.3,1.0), 1, 0);
+			context_->clearFramebuffer(0, GraphicsClearFlagBits::ColorBit, float4(0.1,0.2,0.3,1.0), 1, 0);
 
 			if (totalVertexSize != 0 || totalIndirectSize != 0)
 			{
@@ -474,7 +495,7 @@ namespace octoon
 
 						ImVec4 scissor((int)cmd->ClipRect.x, (int)cmd->ClipRect.y, (int)(cmd->ClipRect.z - cmd->ClipRect.x), (int)(cmd->ClipRect.w - cmd->ClipRect.y));
 
-						context_->setScissor(0, Scissor(scissor.x, scissor.y, scissor.z, scissor.w));
+						context_->setScissor(0, uint4(scissor.x, scissor.y, scissor.z, scissor.w));
 
 						context_->setRenderPipeline(pipeline_);
 						context_->setDescriptorSet(descriptor_set_);

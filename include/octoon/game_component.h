@@ -25,7 +25,7 @@ namespace octoon
 		GameComponentPtr get_component(const runtime::Rtti& type) const noexcept;
 		const GameComponents& get_components() const noexcept;
 
-		template<typename T>
+		template<typename T, typename = std::enable_if_t<std::is_base_of<GameComponent, T>::value>>
 		std::shared_ptr<T> get_component() const noexcept
 		{
 			return std::dynamic_pointer_cast<T>(this->get_component(T::RTTI));
@@ -37,11 +37,11 @@ namespace octoon
 		virtual GameComponentPtr clone() const noexcept = 0;
 
 	protected:
-		void add_component_dispatch(GameDispatchType type, GameComponent* component) noexcept;
-		void add_component_dispatch(GameDispatchType type, const GameComponentPtr& component) noexcept;
+		void add_component_dispatch(GameDispatchTypes type, GameComponent* component) noexcept;
+		void add_component_dispatch(GameDispatchTypes type, const GameComponentPtr& component) noexcept;
 
-		void remove_component_dispatch(GameDispatchType type, GameComponent* component) noexcept;
-		void remove_component_dispatch(GameDispatchType type, const GameComponentPtr& component) noexcept;
+		void remove_component_dispatch(GameDispatchTypes type, GameComponent* component) noexcept;
+		void remove_component_dispatch(GameDispatchTypes type, const GameComponentPtr& component) noexcept;
 
 	private:
 		virtual void on_attach() except;

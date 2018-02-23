@@ -9,8 +9,6 @@ namespace octoon
 	{
 		OctoonImplementSubClass(NSGLSwapchain, GraphicsSwapchain, "NSGLSwapchain")
 
-		NSGLSwapchain* NSGLSwapchain::_swapchain = nullptr;
-
 		NSGLSwapchain::NSGLSwapchain() noexcept
 			: _isActive(false)
 			, _major(3)
@@ -75,7 +73,7 @@ namespace octoon
 		void
 		NSGLSwapchain::setActive(bool active) noexcept
 		{
-			static thread_local WGLSwapchain* _swapchain = nullptr;
+			static thread_local NSGLSwapchain* _swapchain = nullptr;
 
 			if (active)
 			{

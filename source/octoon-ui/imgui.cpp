@@ -5,6 +5,8 @@
 #include <imgui_internal.h>
 #include <imgui_user.h>
 
+#include <cstring> // std::memcpy
+
 namespace octoon
 {
 	namespace imgui
@@ -99,11 +101,6 @@ namespace octoon
 			ImGui::NewFrame();
 		}
 
-		void render() noexcept
-		{
-			ImGui::Render();
-		}
-
 		void shutdown() noexcept
 		{
 			ImGui::Shutdown();
@@ -116,30 +113,30 @@ namespace octoon
 
 		void show_style_editor(GuiStyle* ref) noexcept
 		{
-			static_assert(sizeof(GuiStyle) == sizeof(ImGuiStyle));
-			static_assert(offsetof(GuiStyle, Alpha) == offsetof(ImGuiStyle, Alpha));
-			static_assert(offsetof(GuiStyle, WindowPadding) == offsetof(ImGuiStyle, WindowPadding));
-			static_assert(offsetof(GuiStyle, WindowMinSize) == offsetof(ImGuiStyle, WindowMinSize));
-			static_assert(offsetof(GuiStyle, WindowRounding) == offsetof(ImGuiStyle, WindowRounding));
-			static_assert(offsetof(GuiStyle, WindowTitleAlign) == offsetof(ImGuiStyle, WindowTitleAlign));
-			static_assert(offsetof(GuiStyle, ChildWindowRounding) == offsetof(ImGuiStyle, ChildWindowRounding));
-			static_assert(offsetof(GuiStyle, FramePadding) == offsetof(ImGuiStyle, FramePadding));
-			static_assert(offsetof(GuiStyle, FrameRounding) == offsetof(ImGuiStyle, FrameRounding));
-			static_assert(offsetof(GuiStyle, ItemSpacing) == offsetof(ImGuiStyle, ItemSpacing));
-			static_assert(offsetof(GuiStyle, ItemInnerSpacing) == offsetof(ImGuiStyle, ItemInnerSpacing));
-			static_assert(offsetof(GuiStyle, TouchExtraPadding) == offsetof(ImGuiStyle, TouchExtraPadding));
-			static_assert(offsetof(GuiStyle, IndentSpacing) == offsetof(ImGuiStyle, IndentSpacing));
-			static_assert(offsetof(GuiStyle, ColumnsMinSpacing) == offsetof(ImGuiStyle, ColumnsMinSpacing));
-			static_assert(offsetof(GuiStyle, ScrollbarSize) == offsetof(ImGuiStyle, ScrollbarSize));
-			static_assert(offsetof(GuiStyle, ScrollbarRounding) == offsetof(ImGuiStyle, ScrollbarRounding));
-			static_assert(offsetof(GuiStyle, GrabMinSize) == offsetof(ImGuiStyle, GrabMinSize));
-			static_assert(offsetof(GuiStyle, GrabRounding) == offsetof(ImGuiStyle, GrabRounding));
-			static_assert(offsetof(GuiStyle, ButtonTextAlign) == offsetof(ImGuiStyle, ButtonTextAlign));
-			static_assert(offsetof(GuiStyle, DisplayWindowPadding) == offsetof(ImGuiStyle, DisplayWindowPadding));
-			static_assert(offsetof(GuiStyle, DisplaySafeAreaPadding) == offsetof(ImGuiStyle, DisplaySafeAreaPadding));
-			static_assert(offsetof(GuiStyle, AntiAliasedLines) == offsetof(ImGuiStyle, AntiAliasedLines));
-			static_assert(offsetof(GuiStyle, AntiAliasedShapes) == offsetof(ImGuiStyle, AntiAliasedShapes));
-			static_assert(offsetof(GuiStyle, CurveTessellationTol) == offsetof(ImGuiStyle, CurveTessellationTol));
+			static_assert(sizeof(GuiStyle) == sizeof(ImGuiStyle), "");
+			static_assert(offsetof(GuiStyle, Alpha) == offsetof(ImGuiStyle, Alpha), "");
+			static_assert(offsetof(GuiStyle, WindowPadding) == offsetof(ImGuiStyle, WindowPadding), "");
+			static_assert(offsetof(GuiStyle, WindowMinSize) == offsetof(ImGuiStyle, WindowMinSize), "");
+			static_assert(offsetof(GuiStyle, WindowRounding) == offsetof(ImGuiStyle, WindowRounding), "");
+			static_assert(offsetof(GuiStyle, WindowTitleAlign) == offsetof(ImGuiStyle, WindowTitleAlign), "");
+			static_assert(offsetof(GuiStyle, ChildWindowRounding) == offsetof(ImGuiStyle, ChildWindowRounding), "");
+			static_assert(offsetof(GuiStyle, FramePadding) == offsetof(ImGuiStyle, FramePadding), "");
+			static_assert(offsetof(GuiStyle, FrameRounding) == offsetof(ImGuiStyle, FrameRounding), "");
+			static_assert(offsetof(GuiStyle, ItemSpacing) == offsetof(ImGuiStyle, ItemSpacing), "");
+			static_assert(offsetof(GuiStyle, ItemInnerSpacing) == offsetof(ImGuiStyle, ItemInnerSpacing), "");
+			static_assert(offsetof(GuiStyle, TouchExtraPadding) == offsetof(ImGuiStyle, TouchExtraPadding), "");
+			static_assert(offsetof(GuiStyle, IndentSpacing) == offsetof(ImGuiStyle, IndentSpacing), "");
+			static_assert(offsetof(GuiStyle, ColumnsMinSpacing) == offsetof(ImGuiStyle, ColumnsMinSpacing), "");
+			static_assert(offsetof(GuiStyle, ScrollbarSize) == offsetof(ImGuiStyle, ScrollbarSize), "");
+			static_assert(offsetof(GuiStyle, ScrollbarRounding) == offsetof(ImGuiStyle, ScrollbarRounding), "");
+			static_assert(offsetof(GuiStyle, GrabMinSize) == offsetof(ImGuiStyle, GrabMinSize), "");
+			static_assert(offsetof(GuiStyle, GrabRounding) == offsetof(ImGuiStyle, GrabRounding), "");
+			static_assert(offsetof(GuiStyle, ButtonTextAlign) == offsetof(ImGuiStyle, ButtonTextAlign), "");
+			static_assert(offsetof(GuiStyle, DisplayWindowPadding) == offsetof(ImGuiStyle, DisplayWindowPadding), "");
+			static_assert(offsetof(GuiStyle, DisplaySafeAreaPadding) == offsetof(ImGuiStyle, DisplaySafeAreaPadding), "");
+			static_assert(offsetof(GuiStyle, AntiAliasedLines) == offsetof(ImGuiStyle, AntiAliasedLines), "");
+			static_assert(offsetof(GuiStyle, AntiAliasedShapes) == offsetof(ImGuiStyle, AntiAliasedShapes), "");
+			static_assert(offsetof(GuiStyle, CurveTessellationTol) == offsetof(ImGuiStyle, CurveTessellationTol), "");
 
 			if (ref)
 				ImGui::ShowStyleEditor((ImGuiStyle*)ref);
@@ -802,7 +799,7 @@ namespace octoon
 			if (*current_item != _default)
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(revert)) { *current_item = _default; change = false; };
 				pop_id();
 			}
@@ -1596,8 +1593,8 @@ namespace octoon
 					{
 						float s0 = (float)x / (float)step;
 						float s1 = (float)(x + 1) / (float)step;
-						float v0 = 1.0 - (float)(y) / (float)step;
-						float v1 = 1.0 - (float)(y + 1) / (float)step;
+						float v0 = 1.0f - (float)(y) / (float)step;
+						float v1 = 1.0f - (float)(y + 1) / (float)step;
 
 						ImGui::ColorConvertHSVtoRGB(hue, s0, v0, c00.x, c00.y, c00.z);
 						ImGui::ColorConvertHSVtoRGB(hue, s1, v0, c10.x, c10.y, c10.z);
@@ -1659,7 +1656,7 @@ namespace octoon
 				value_changed = true;
 			}
 
-			color = ImColor::HSV(hue > 0 ? hue : 1e-6, saturation > 0 ? saturation : 1e-6, value > 0 ? value : 1e-6);
+			color = ImColor::HSV(hue > 0 ? hue : 1e-6f, saturation > 0 ? saturation : 1e-6f, value > 0 ? value : 1e-6f);
 
 			col[0] = ImClamp(color.Value.x, 0.0f, 1.0f);
 			col[1] = ImClamp(color.Value.y, 0.0f, 1.0f);
@@ -1674,7 +1671,7 @@ namespace octoon
 			if (!math::equal(col[0], _default[0]) || !math::equal(col[1], _default[1]) || !math::equal(col[2], _default[2]))
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name))
 				{
 					col[0] = _default[0];
@@ -1695,7 +1692,7 @@ namespace octoon
 			if (!math::equal(*v, _default))
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name)) { *v = _default; change = true; };
 				pop_id();
 			}
@@ -1709,7 +1706,7 @@ namespace octoon
 			if (v[0] != _default[0] || v[1] != _default[1])
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name))
 				{
 					v[0] = _default[0];
@@ -1728,7 +1725,7 @@ namespace octoon
 			if (v[0] != _default[0] || v[1] != _default[1] || v[2] != _default[2])
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name))
 				{
 					v[0] = _default[0];
@@ -1748,7 +1745,7 @@ namespace octoon
 			if (v[0] != _default[0] || v[1] != _default[1] || v[2] != _default[2] || v[3] != _default[3])
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name))
 				{
 					v[0] = _default[0];
@@ -1769,7 +1766,7 @@ namespace octoon
 			if (v[0] != _default)
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name)) { *v = _default; change = true; };
 				pop_id();
 			}
@@ -1783,7 +1780,7 @@ namespace octoon
 			if (v[0] != _default[0] || v[1] != _default[1])
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name))
 				{
 					v[0] = _default[0];
@@ -1802,7 +1799,7 @@ namespace octoon
 			if (v[0] != _default[0] || v[1] != _default[1] || v[2] != _default[2])
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name))
 				{
 					v[0] = _default[0];
@@ -1822,7 +1819,7 @@ namespace octoon
 			if (v[0] != _default[0] || v[1] != _default[1] || v[2] != _default[2] || v[3] != _default[3])
 			{
 				same_line();
-				push_id(std::hash<const char*>{}(label));
+				push_id((int)std::hash<const char*>{}(label));
 				if (button(name))
 				{
 					v[0] = _default[0];
@@ -1857,7 +1854,7 @@ namespace octoon
 
 		void set_style(const GuiStyle& newStyle) noexcept
 		{
-			static_assert(sizeof(ImGuiStyle::Colors) == sizeof(GuiStyle::Colors));
+			static_assert(sizeof(ImGuiStyle::Colors) == sizeof(GuiStyle::Colors), "");
 
 			ImGuiStyle& style = ImGui::GetStyle();
 			style.Alpha = newStyle.Alpha;
@@ -1986,7 +1983,6 @@ namespace octoon
 
 		bool image_button_and_label(const char* label, GuiTextureID texture, const float2& size, bool showLabel, bool selected, const float2& uv0, const float2& uv1, int frame_padding, const float4& bg_col, const float4& tint_col)
 		{
-			ImGuiWindow* window = ImGui::GetCurrentWindow();
 			ImGui::BeginGroup();
 
 			bool chlick = image_button_ex(texture, size, true, uv0, uv1, frame_padding, bg_col, tint_col);

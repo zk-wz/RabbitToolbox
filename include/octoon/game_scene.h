@@ -23,21 +23,21 @@ namespace octoon
 		void set_name(const std::string& name) noexcept;
 		const std::string& get_name() const noexcept;
 
-		std::size_t get_instance_id() const noexcept;
+		std::size_t id() const noexcept;
 
-		GameObjectPtr get_root_object() const noexcept;
+		const GameObjectPtr& root() const noexcept;
 
 		GameScenePtr clone() const noexcept;
 
 	private:
-		class RootObject : public GameObject
+		class RootObject final : public GameObject
 		{
 		public:
 			RootObject(GameScene* scene) noexcept;
 			virtual ~RootObject() noexcept;
 
-			virtual GameScene* get_game_scene() noexcept;
-			virtual const GameScene* get_game_scene() const noexcept;
+			virtual GameScene* get_game_scene() noexcept override;
+			virtual const GameScene* get_game_scene() const noexcept override;
 
 		private:
 			GameScene* scene_;
