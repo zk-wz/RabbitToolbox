@@ -36,7 +36,7 @@ public:
 	void mouseMoveEvent(QMouseEvent* event);
 	void mouseReleaseEvent(QMouseEvent* event);
 	void mouseDoubleClickEvent(QMouseEvent* event);
-	void wheelEvent(QWheelEvent* event);  
+	void wheelEvent(QWheelEvent* event);
 
 	virtual QPaintEngine *paintEngine() const { return NULL; }
 
@@ -44,7 +44,6 @@ public:
 	void pause();
 private:
 	octoon::GameApplicationPtr gameApp_;
-	octoon::input::InputMousePtr inputMessage_;
 
 	std::string gameRootPath_;
 	std::string gameScenePath_;

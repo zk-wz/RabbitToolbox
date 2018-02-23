@@ -41,17 +41,15 @@ bool OViewWidget::OctoonOpenWindow(const char* title, int w, int h) noexcept
 		octoon::WindHandle hwnd = (octoon::WindHandle)winId();
 
 		gameApp_ = std::make_shared<octoon::GameApplication>();
-
-		if (!gameApp_->open(hwnd, w, h, w, h))
-			throw std::exception("GameApplication::open() failed");
-
+		gameApp_->open(hwnd, w, h, w, h);
 		gameApp_->set_active(true);
 
 		if (!gameScenePath_.empty())
 		{
 			if (!gameApp_->open_scene(gameScenePath_))
-				throw std::exception("GameApplication::open_scene() failed");
+				throw std::runtime_error("GameApplication::open_scene() failed");
 		}
+
 		return true;
 	}
 	catch (...)
@@ -138,11 +136,11 @@ void OViewWidget::mousePressEvent(QMouseEvent * e)
 		event.button.which = 0;
 
 		if (e->button() == Qt::LeftButton)
-			event.button.button = octoon::input::InputButton::LEFT;
+			event.button.button = octoon::input::InputButton::Left;
 		else if (e->button() == Qt::RightButton)
-			event.button.button = octoon::input::InputButton::RIGHT;
+			event.button.button = octoon::input::InputButton::Right;
 		else if (e->button() == Qt::MiddleButton)
-			event.button.button = octoon::input::InputButton::MIDDLE;
+			event.button.button = octoon::input::InputButton::Middle;
 
 		gameApp_->send_input_event(event);
 		this->repaint();
@@ -164,11 +162,11 @@ void OViewWidget::mouseReleaseEvent(QMouseEvent * e)
 		event.button.which = 0;
 
 		if (e->button() == Qt::LeftButton)
-			event.button.button = octoon::input::InputButton::LEFT;
+			event.button.button = octoon::input::InputButton::Left;
 		else if (e->button() == Qt::RightButton)
-			event.button.button = octoon::input::InputButton::RIGHT;
+			event.button.button = octoon::input::InputButton::Right;
 		else if (e->button() == Qt::MiddleButton)
-			event.button.button = octoon::input::InputButton::MIDDLE;
+			event.button.button = octoon::input::InputButton::Middle;
 
 		gameApp_->send_input_event(event);
 		this->repaint();
@@ -181,12 +179,6 @@ void OViewWidget::mouseDoubleClickEvent(QMouseEvent * e)
 	{
 		octoon::input::InputEvent doubleClick;
 		doubleClick.event = octoon::input::InputEvent::MouseButtonDoubleClick;
-		if (e->button() == Qt::LeftButton)
-			doubleClick.button.button = octoon::input::InputButton::LEFT;
-		else if (e->button() == Qt::RightButton)
-			doubleClick.button.button = octoon::input::InputButton::RIGHT;
-		else if (e->button() == Qt::MiddleButton)
-			doubleClick.button.button = octoon::input::InputButton::MIDDLE;
 		doubleClick.button.clicks = true;
 		doubleClick.button.x = e->x();
 		doubleClick.button.y = e->y();
@@ -194,6 +186,13 @@ void OViewWidget::mouseDoubleClickEvent(QMouseEvent * e)
 		doubleClick.button.windowID = (std::uint64_t)winId();
 		doubleClick.button.padding1 = 0;
 		doubleClick.button.which = 0;
+
+		if (e->button() == Qt::LeftButton)
+			doubleClick.button.button = octoon::input::InputButton::Left;
+		else if (e->button() == Qt::RightButton)
+			doubleClick.button.button = octoon::input::InputButton::Right;
+		else if (e->button() == Qt::MiddleButton)
+			doubleClick.button.button = octoon::input::InputButton::Middle;
 
 		gameApp_->send_input_event(doubleClick);
 		this->repaint();
