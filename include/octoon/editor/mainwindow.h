@@ -38,6 +38,7 @@ protected:
     ODockWidget *commandDock;
     ODockWidget *hierarchyDock;
 	ODockWidget *materialDock;
+
     QQuickWidget *commandPanel;
     QQuickWidget *hierarchyPanel;
 	QQuickWidget *materialPanel;

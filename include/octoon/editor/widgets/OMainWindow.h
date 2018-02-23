@@ -2,9 +2,11 @@
 #define OCTOON_OMAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
 #include <QLayout>
 #include <QMenu>
 #include <QMenuBar>
+#include <QQuickWidget>
 
 #include <octoon\editor\widgets\OTitleBar.h>
 
@@ -16,6 +18,9 @@ public:
     explicit OMainWindow(QWidget *parent = Q_NULLPTR)
         :QMainWindow(parent)
     {
+		// menu
+		menuBar = new QQuickWidget(this);
+		menuBar->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OMenuBar.qml"));
         // layout
         windowCentralWidget = new QWidget(this);
         vLayout = new QVBoxLayout(windowCentralWidget);
@@ -29,6 +34,7 @@ public:
 
         vLayout->setMargin(0);
         vLayout->addWidget(titleBar);
+		vLayout->addWidget(menuBar);
         vLayout->addWidget(&winFrame);
 
         windowCentralWidget->setLayout(vLayout);
@@ -53,7 +59,7 @@ protected:
     QWidget * windowCentralWidget;
     QVBoxLayout *vLayout;
     OTitleBar *titleBar;
-    QMenuBar *menuBar;
+	QQuickWidget *menuBar;
 };
  
 

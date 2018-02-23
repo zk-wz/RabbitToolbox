@@ -3,8 +3,6 @@
 MainWindow::MainWindow(QWidget *parent) :
     OMainWindow(parent)
 {
-	// menubar
-
     // dock
     viewDock = new ODockWidget(this);
     commandDock = new ODockWidget(this);
