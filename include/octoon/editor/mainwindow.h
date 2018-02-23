@@ -5,6 +5,7 @@
 #include <memory>
 
 #include <QCoreApplication>
+#include <QApplication>
 #include <QMainWindow>
 #include <QDockWidget>
 #include <QPaintEvent>
@@ -30,7 +31,11 @@ public:
 protected:
     QDockWidget *viewDock;
     QDockWidget *commandDock;
+    QDockWidget *hierarchyDock;
+	QDockWidget *materialDock;
     QQuickWidget *commandPanel;
+    QQuickWidget *hierarchyPanel;
+	QQuickWidget *materialPanel;
     OViewWidget *viewPanel;
 };
 

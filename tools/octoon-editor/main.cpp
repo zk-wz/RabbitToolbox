@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	w.resize(1376, 768);
 	w.show();
 
-	a.setStyleSheet(getQssContent(":/qss/default_qss.qss"));
+	a.setStyleSheet(getQssContent("./qss/default_qss.qss"));
 
 	return a.exec();
 }
