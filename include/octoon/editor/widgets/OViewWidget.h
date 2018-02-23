@@ -9,9 +9,10 @@
 #include <QPaintEngine>
 #include <QPaintEvent>
 #include <QResizeEvent>
-#include<QMouseEvent>
-#include<QWheelEvent>
+#include <QMouseEvent>
+#include <QWheelEvent>
 #include <QDateTime>
+#include <QTimer>
 #include <QtQuickWidgets/QQuickWidget>
 
 #include <octoon/octoon.h>
@@ -40,6 +41,7 @@ public:
 	virtual QPaintEngine *paintEngine() const { return NULL; }
 
 	void play();
+	void pause();
 private:
 	octoon::GameApplicationPtr gameApp_;
 	octoon::input::InputMousePtr inputMessage_;
@@ -48,6 +50,8 @@ private:
 	std::string gameScenePath_;
 
 	bool is_init;
+
+	QTimer *timer;
 
 signals:
 

@@ -7,6 +7,10 @@ OViewWidget::OViewWidget(QWidget *parent) : QWidget(parent)
 	setAttribute(Qt::WA_PaintOnScreen, true);
 	setAttribute(Qt::WA_NativeWindow, true);
 	setMouseTracking(true);
+
+	timer = new QTimer(this);
+	connect(timer, SIGNAL(timeout()), this, SLOT(repaint()));
+	timer->start(30);
 }
 
 bool OViewWidget::OctoonInit(const char* gamedir, const char* scenename) noexcept
@@ -97,34 +101,6 @@ void OViewWidget::resizeEvent(QResizeEvent *e)
 			event.change.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
 			gameApp_->send_input_event(event);
 		}
-		repaint();
-	}
-}
-
-void OViewWidget::mousePressEvent(QMouseEvent * e)
-{
-	if (gameApp_)
-	{
-		octoon::input::InputEvent event;
-		event.event = octoon::input::InputEvent::MouseButtonDown;
-		if (e->button() == Qt::LeftButton)
-		{
-			event.button.button = octoon::input::InputButton::MOUSE0;
-		}
-		else if (e->button() == Qt::RightButton)
-		{
-			event.button.button = octoon::input::InputButton::MOUSE1;
-		}
-		event.button.clicks = true;
-		event.button.x = e->x();
-		event.button.y = e->y();
-		event.button.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
-		event.button.windowID = (std::uint64_t)winId();
-		event.button.padding1 = 0;
-		event.button.which = 0;
-
-		gameApp_->send_input_event(event);
-		repaint();
 	}
 }
 
@@ -136,14 +112,38 @@ void OViewWidget::mouseMoveEvent(QMouseEvent * e)
 		event.event = octoon::input::InputEvent::MouseMotion;
 		event.motion.x = e->pos().x();
 		event.motion.y = e->pos().y();
-		event.motion.xrel = e->windowPos().x();
-		event.motion.yrel = e->windowPos().y();
+		event.motion.xrel = e->screenPos().x();
+		event.motion.yrel = e->screenPos().y();
 		event.motion.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
 		event.motion.state = false;
 		event.motion.windowID = (std::uint64_t)winId();
 
 		gameApp_->send_input_event(event);
-		repaint();
+	}
+}
+
+void OViewWidget::mousePressEvent(QMouseEvent * e)
+{
+	if (gameApp_)
+	{
+		octoon::input::InputEvent event;
+		event.event = octoon::input::InputEvent::MouseButtonDown;
+		event.button.clicks = true;
+		event.button.x = e->x();
+		event.button.y = e->y();
+		event.button.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
+		event.button.windowID = (std::uint64_t)winId();
+		event.button.padding1 = 0;
+		event.button.which = 0;
+
+		if (e->button() == Qt::LeftButton)
+			event.button.button = octoon::input::InputButton::LEFT;
+		else if (e->button() == Qt::RightButton)
+			event.button.button = octoon::input::InputButton::RIGHT;
+		else if (e->button() == Qt::MiddleButton)
+			event.button.button = octoon::input::InputButton::MIDDLE;
+
+		gameApp_->send_input_event(event);
 	}
 }
 
@@ -153,15 +153,7 @@ void OViewWidget::mouseReleaseEvent(QMouseEvent * e)
 	{
 		octoon::input::InputEvent event;
 		event.event = octoon::input::InputEvent::MouseButtonUp;
-		if (e->button() == Qt::LeftButton)
-		{
-			event.button.button = octoon::input::InputButton::MOUSE0;
-		}
-		else if (e->button() == Qt::RightButton)
-		{
-			event.button.button = octoon::input::InputButton::MOUSE1;
-		}
-		event.button.clicks = true;
+		event.button.clicks = false;
 		event.button.x = e->x();
 		event.button.y = e->y();
 		event.button.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
@@ -169,8 +161,14 @@ void OViewWidget::mouseReleaseEvent(QMouseEvent * e)
 		event.button.padding1 = 0;
 		event.button.which = 0;
 
+		if (e->button() == Qt::LeftButton)
+			event.button.button = octoon::input::InputButton::LEFT;
+		else if (e->button() == Qt::RightButton)
+			event.button.button = octoon::input::InputButton::RIGHT;
+		else if (e->button() == Qt::MiddleButton)
+			event.button.button = octoon::input::InputButton::MIDDLE;
+
 		gameApp_->send_input_event(event);
-		repaint();
 	}
 }
 
@@ -181,13 +179,11 @@ void OViewWidget::mouseDoubleClickEvent(QMouseEvent * e)
 		octoon::input::InputEvent doubleClick;
 		doubleClick.event = octoon::input::InputEvent::MouseButtonDoubleClick;
 		if (e->button() == Qt::LeftButton)
-		{
-			doubleClick.button.button = octoon::input::InputButton::MOUSE0;
-		}
+			doubleClick.button.button = octoon::input::InputButton::LEFT;
 		else if (e->button() == Qt::RightButton)
-		{
-			doubleClick.button.button = octoon::input::InputButton::MOUSE1;
-		}
+			doubleClick.button.button = octoon::input::InputButton::RIGHT;
+		else if (e->button() == Qt::MiddleButton)
+			doubleClick.button.button = octoon::input::InputButton::MIDDLE;
 		doubleClick.button.clicks = true;
 		doubleClick.button.x = e->x();
 		doubleClick.button.y = e->y();
@@ -197,7 +193,6 @@ void OViewWidget::mouseDoubleClickEvent(QMouseEvent * e)
 		doubleClick.button.which = 0;
 
 		gameApp_->send_input_event(doubleClick);
-		repaint();
 	}
 }
 
@@ -211,13 +206,19 @@ void OViewWidget::wheelEvent(QWheelEvent * e)
 		event.wheel.windowID = (std::uint64_t)winId();
 
 		gameApp_->send_input_event(event);
-		repaint();
 	}
 }
 
 void OViewWidget::play()
 {
-	repaint();
+	if(!timer->isActive())
+		timer->start(30);
+}
+
+void OViewWidget::pause()
+{
+	if (timer->isActive())
+		timer->stop();
 }
 
 OViewWidget::~OViewWidget()
