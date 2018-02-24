@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQml 2.2
 
 Button {
-     contentItem: Text {
+    contentItem: Text {
          text: parent.text
          font: parent.font
          opacity: enabled ? 1.0 : 0.3
@@ -15,8 +15,8 @@ Button {
      }
 
      background: Rectangle {
-         implicitWidth: 100
-         implicitHeight: 40
+         implicitWidth: 60
+         implicitHeight: 30
          opacity: enabled ? 1 : 0.3
          color: parent.down ? "#5f8ac1" : "#646464"
          border.color: "#4a4a4a"

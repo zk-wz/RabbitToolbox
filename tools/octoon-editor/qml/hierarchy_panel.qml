@@ -4,19 +4,24 @@ import QtQuick.Controls 2.3
 import "./controls" as OctoonControls
 
 Column{
-    anchors.fill: parent
+    width: 260
+    height: 400
 
     Row{
-        OctoonControls.OComboBox{
-            model: ["First", "Second", "Third"]
-            width: 64
-            height: 24
+        OctoonControls.OTextArea{
+            text:"width:"+parent.parent.width
         }
         OctoonControls.OTextArea{
-            
+            text:"height:"+parent.parent.height
         }
+    }
 
- 
+    Flow{
+        width: parent.width
+        anchors.margins: 4
+        spacing: 10
+        OctoonControls.OSearchBar{
+        }
     }
 
     Row{

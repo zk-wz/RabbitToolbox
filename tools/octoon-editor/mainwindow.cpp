@@ -3,6 +3,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     OMainWindow(parent)
 {
+	this->setWindowTitle("Octoon Studio");
 	// menu
 	menuBar = new QMenuBar(this);
 	QMenu *fileMenu = new QMenu(tr("File"), this);
@@ -14,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	menuBar->addMenu(editMenu);
 	menuBar->addMenu(viewMenu);
 	menuBar->addMenu(helpMenu);
+
+	fileMenu->addAction(tr("New"));
+	fileMenu->addAction(tr("Open"));
+
 	this->setMenuBar(menuBar);
 
     // dock
@@ -23,12 +28,18 @@ MainWindow::MainWindow(QWidget *parent) :
 	materialDock = new ODockWidget(this);
 
     // panel
-    commandPanel = new QQuickWidget(commandDock);
+    commandPanel = new QQuickWidget;
+	commandPanel->setResizeMode(QQuickWidget::SizeViewToRootObject);
     commandPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OButton.qml"));
-    hierarchyPanel = new QQuickWidget(hierarchyDock);
+	
+    hierarchyPanel = new QQuickWidget;
+	hierarchyPanel->setResizeMode(QQuickWidget::SizeViewToRootObject);
     hierarchyPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/hierarchy_panel.qml"));
-	materialPanel = new QQuickWidget(materialDock);
+	
+	materialPanel = new QQuickWidget;
+	materialPanel->setResizeMode(QQuickWidget::SizeViewToRootObject);
 	materialPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/material_panel.qml"));
+	
     viewPanel = new OViewWidget(viewDock);
 
     viewDock->setWidget(viewPanel);
