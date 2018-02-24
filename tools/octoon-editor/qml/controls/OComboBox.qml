@@ -3,13 +3,12 @@ import QtQuick.Controls 2.1
 
 ComboBox {
     id: control
-    model: ["First", "Second", "Third"]
 
     delegate: ItemDelegate {
         width: control.width
         contentItem: Text {
             text: modelData
-            color: "#21be2b"
+            color: "#000000"
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
@@ -21,8 +20,8 @@ ComboBox {
         id: canvas
         x: control.width - width - control.rightPadding
         y: control.topPadding + (control.availableHeight - height) / 2
-        width: 12
-        height: 8
+        width: 6
+        height: 4
         contextType: "2d"
 
         Connections {
@@ -32,22 +31,22 @@ ComboBox {
 
         onPaint: {
             context.reset();
+            context.lineWidth=1;
             context.moveTo(0, 0);
-            context.lineTo(width, 0);
             context.lineTo(width / 2, height);
-            context.closePath();
-            context.fillStyle = control.pressed ? "#17a81a" : "#21be2b";
-            context.fill();
+            context.lineTo(width, 0);
+            context.strokeStyle = "#ffffff";
+            context.stroke();
         }
     }
 
     contentItem: Text {
-        leftPadding: 0
+        leftPadding: 5
         rightPadding: control.indicator.width + control.spacing
 
         text: control.displayText
         font: control.font
-        color: control.pressed ? "#17a81a" : "#21be2b"
+        color: "#ffffff"
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -56,9 +55,10 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        border.color: control.pressed ? "#17a81a" : "#21be2b"
-        border.width: control.visualFocus ? 2 : 1
-        radius: 2
+        color: "#383838"
+        border.color: control.pressed ? "#0078d7" : "#666666"
+        border.width: control.visualFocus ? 3 : 2
+        radius: 4
     }
 
     popup: Popup {
@@ -77,7 +77,7 @@ ComboBox {
         }
 
         background: Rectangle {
-            border.color: "#21be2b"
+            border.color: "#666666"
             radius: 2
         }
     }
