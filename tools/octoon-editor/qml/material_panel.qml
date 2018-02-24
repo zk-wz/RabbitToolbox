@@ -4,8 +4,7 @@ import QtQuick.Controls 2.3
 import "./controls" as OctoonControls
 
 Row{
-    anchors.centerIn: parent
-    spacing: parent.width/6
+    anchors.fill: parent
 
     OctoonControls.OButton{
         id: loadButton
