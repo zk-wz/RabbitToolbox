@@ -13,6 +13,9 @@
 #include <QWheelEvent>
 #include <QDateTime>
 #include <QTimer>
+#include <QGraphicsView>
+#include <QGraphicsObject>
+#include <QWindow>
 #include <QtQuickWidgets/QQuickWidget>
 
 #include <octoon/octoon.h>
@@ -39,16 +42,36 @@ public:
 	void wheelEvent(QWheelEvent* event);
 
 	virtual QPaintEngine *paintEngine() const { return NULL; }
+	bool event(QEvent * event) Q_DECL_OVERRIDE 
+	{
+		if (event->type() == QEvent::Paint) 
+		{
+			bool result = QWidget::event(event);
+			appUpdate();
+			return result;
+		}
+
+		if (event->type() == QEvent::UpdateRequest) 
+		{
+			bool result = QWidget::event(event);
+			appUpdate();
+			return result;
+		}
+
+		return QWidget::event(event);
+	}
 
 	void play();
 	void pause();
+private slots:
+	void appUpdate();
 private:
+	bool init_flag;
+
 	octoon::GameApplicationPtr gameApp_;
 
 	std::string gameRootPath_;
 	std::string gameScenePath_;
-
-	bool is_init;
 
 	QTimer *timer;
 

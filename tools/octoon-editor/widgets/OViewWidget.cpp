@@ -1,15 +1,18 @@
 #include <octoon\editor\widgets\OViewWidget.h>
 #include "..\..\..\include\octoon\editor\widgets\OViewWidget.h"
 
-OViewWidget::OViewWidget(QWidget *parent) : QWidget(parent)
+OViewWidget::OViewWidget(QWidget *parent) : QWidget()
 {
-	is_init = false;
+	init_flag = false;
 	setAttribute(Qt::WA_PaintOnScreen, true);
-	setAttribute(Qt::WA_NativeWindow, true);
+	//setAttribute(Qt::WA_NativeWindow, true);
+	//setAttribute(Qt::WA_OpaquePaintEvent, false);
 	setMouseTracking(true);
+	this->setUpdatesEnabled(false);
 
 	timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(repaint()));
+	connect(timer, SIGNAL(timeout()), this, SLOT(appUpdate()));
+	timer->start(20);
 }
 
 bool OViewWidget::OctoonInit(const char* gamedir, const char* scenename) noexcept
@@ -65,15 +68,13 @@ bool OViewWidget::OctoonOpenWindow(const char* title, int w, int h) noexcept
 
 void OViewWidget::paintEvent(QPaintEvent *e)
 {
-	if (!is_init)
+	if (!init_flag)
 	{
-		is_init = true;
+		init_flag = true;
 		OctoonInit(QCoreApplication::applicationFilePath().toStdString().c_str(), "");
 		OctoonOpenWindow("Octoon Studio", width(), height());
 	}
-
-	if (gameApp_)
-		gameApp_->update();
+	appUpdate();
 }
 
 void OViewWidget::resizeEvent(QResizeEvent *e)
@@ -98,7 +99,7 @@ void OViewWidget::resizeEvent(QResizeEvent *e)
 			event.change.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
 			gameApp_->send_input_event(event);
 		}
-		this->repaint();
+		appUpdate();
 	}
 }
 
@@ -117,7 +118,7 @@ void OViewWidget::mouseMoveEvent(QMouseEvent * e)
 		event.motion.windowID = (std::uint64_t)winId();
 
 		gameApp_->send_input_event(event);
-		this->repaint();
+		appUpdate();
 	}
 }
 
@@ -143,7 +144,7 @@ void OViewWidget::mousePressEvent(QMouseEvent * e)
 			event.button.button = octoon::input::InputButton::Middle;
 
 		gameApp_->send_input_event(event);
-		this->repaint();
+		appUpdate();
 	}
 }
 
@@ -169,7 +170,7 @@ void OViewWidget::mouseReleaseEvent(QMouseEvent * e)
 			event.button.button = octoon::input::InputButton::Middle;
 
 		gameApp_->send_input_event(event);
-		this->repaint();
+		appUpdate();
 	}
 }
 
@@ -195,7 +196,7 @@ void OViewWidget::mouseDoubleClickEvent(QMouseEvent * e)
 			doubleClick.button.button = octoon::input::InputButton::Middle;
 
 		gameApp_->send_input_event(doubleClick);
-		this->repaint();
+		appUpdate();
 	}
 }
 
@@ -209,9 +210,27 @@ void OViewWidget::wheelEvent(QWheelEvent * e)
 		event.wheel.windowID = (std::uint64_t)winId();
 
 		gameApp_->send_input_event(event);
-		this->repaint();
+		appUpdate();
 	}
 }
+
+void OViewWidget::appUpdate()
+{
+	if (!init_flag)
+	{
+		init_flag = true;
+		OctoonInit(QCoreApplication::applicationFilePath().toStdString().c_str(), "");
+		OctoonOpenWindow("Octoon Studio", width(), height());
+	}
+
+	if (gameApp_)
+		gameApp_->update();
+}
+
+//void OViewWidget::scenceUpdate()
+//{
+//	this->viewport()->update();
+//}
 
 void OViewWidget::play()
 {

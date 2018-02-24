@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     commandPanel = new QQuickWidget(commandDock);
     commandPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OButton.qml"));
     hierarchyPanel = new QQuickWidget(hierarchyDock);
-    hierarchyPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OButton.qml"));
+    hierarchyPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/hierarchy_panel.qml"));
 	materialPanel = new QQuickWidget(materialDock);
 	materialPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/material_panel.qml"));
     viewPanel = new OViewWidget(viewDock);
@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	materialDock->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
 	materialDock->setWidget(materialPanel);
 	materialDock->setWindowTitle("Material Panel");
+	materialDock->setMinimumHeight(100);
 
     this->setCentralWidget(viewDock);
     this->addDockWidget(Qt::RightDockWidgetArea,commandDock);
