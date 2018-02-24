@@ -33,32 +33,32 @@ public:
         // buttons
         QHBoxLayout *pLayout = new QHBoxLayout(this);
         nameLabel = new QLabel(name, this);
-        minButton = new QPushButton(this);
+        //minButton = new QPushButton(this);
         closeButton = new QPushButton(this);
         floatButton = new QPushButton(this);
 
 		pLayout->setMargin(0);
 
-		minButton->setFixedHeight(16);
-		minButton->setFixedWidth(16);
+		//minButton->setFixedHeight(16);
+		//minButton->setFixedWidth(16);
 		closeButton->setFixedHeight(16);
 		closeButton->setFixedWidth(16);
 		floatButton->setFixedHeight(16);
 		floatButton->setFixedWidth(16);
 
-        minButton->setIcon(QIcon(minPix));
+        //minButton->setIcon(QIcon(minPix));
         closeButton->setIcon(QIcon(closePix));
         floatButton->setIcon(QIcon(floatPix));
 
         pLayout->addWidget(nameLabel);
         pLayout->addStretch();
-        pLayout->addWidget(minButton);
+        // pLayout->addWidget(minButton);
         pLayout->addWidget(floatButton);
         pLayout->addWidget(closeButton);
 
         this->setLayout(pLayout);
 
-		connect(minButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
+		//connect(minButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
 		connect(floatButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
 		connect(closeButton, SIGNAL(clicked(bool)), this, SLOT(onClicked()));
     }

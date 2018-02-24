@@ -21,7 +21,7 @@ public:
     explicit OTitleBar(QWidget *parent = Q_NULLPTR)
         :QWidget(parent)
     {
-        setFixedHeight(30);
+        setFixedHeight(24);
 
         iconLabel = new QLabel(this);
         titleLabel = new QLabel(this);

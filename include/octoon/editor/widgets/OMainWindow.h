@@ -19,8 +19,7 @@ public:
         :QMainWindow(parent)
     {
 		// menu
-		menuBar = new QQuickWidget(this);
-		menuBar->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OMenuBar.qml"));
+		menuBar = new QMenuBar(this);
         // layout
         windowCentralWidget = new QWidget(this);
         vLayout = new QVBoxLayout(windowCentralWidget);
@@ -54,12 +53,18 @@ public:
 	{
 		winFrame.addDockWidget(area, dockwidget);
 	}
+
+	void setMenuBar(QMenuBar *menubar)
+	{
+		vLayout->replaceWidget(menuBar, menubar);
+		menuBar = menubar;
+	}
 protected:
     QMainWindow winFrame;
     QWidget * windowCentralWidget;
     QVBoxLayout *vLayout;
     OTitleBar *titleBar;
-	QQuickWidget *menuBar;
+	QMenuBar *menuBar;
 };
  
 

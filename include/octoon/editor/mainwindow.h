@@ -43,6 +43,8 @@ protected:
     QQuickWidget *hierarchyPanel;
 	QQuickWidget *materialPanel;
     OViewWidget *viewPanel;
+
+	QMenuBar *menuBar;
 };
 
 #endif // MAINWINDOW_H

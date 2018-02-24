@@ -1,4 +1,21 @@
-QMainWindow,QDialog,QDockWidget{    
+.QMainWindow{
+    background: #535353;
+    border:2px solid #424242;
+}
+
+QMainWindow::separator
+{
+    background-color: #424242;
+    width: 2px;
+    border: none;
+}
+
+OMainWindow{
+    background: #535353;
+    border:2px solid #424242;
+}
+
+QDialog{    
     background: #535353;
 }
 
@@ -33,6 +50,67 @@ QMainWindow,QDialog,QDockWidget{
 #closeButton:hover{
     border-image: url(./resource/images/button/closeButton_white.png);
     background-color: rgb(100, 100, 100);
+}
+
+/* === QMenuBar === */  
+QMenuBar {  
+    background-color: #535353;  
+    color: white;  
+}
+  
+QMenuBar::item {  
+    background: transparent;  
+}  
+  
+QMenuBar::item:disabled {  
+    color: gray;
+}
+  
+QMenuBar::item:selected {  
+    background-color: rgb(100, 100, 100);
+}
+  
+QMenuBar::item:pressed {  
+    background: #444444;  
+}
+
+/* === QMenu === */  
+QMenu {
+    background-color: rgb(30, 30, 30);  
+    border: 1px solid gray;  
+    color: white;  
+    padding: 1px;  
+}
+  
+QMenu::item {
+    padding: 2px 25px 2px 20px;
+}  
+  
+QMenu::item:disabled {  
+    color: #666666;  
+}  
+  
+QMenu::item:selected {  
+    border-color: gray;
+    background-color: rgb(100, 100, 100); 
+}
+  
+QMenu::icon:checked {  
+  
+}
+  
+QMenu::separator {  
+    height: 1px;  
+    background: #222222;  
+    margin-left: 10px;  
+    margin-right: 10px;  
+    margin-top: 1px;  
+    margin-bottom: 1px;  
+}  
+
+QMenu::indicator {  
+    width: 13px;  
+    height: 13px;  
 }
 
 /* label */
@@ -109,28 +187,28 @@ QTabBar::tab:selected {
 }
 
 /* dock widget */
-QDockWidget{
-    border:1px solid #535353;
+ODockWidget{
+    background: #535353;
     color:white;
     titlebar-close-icon: url(resource/images/button/closeButton_white.png);
     titlebar-normal-icon: url(resource/images/button/maximizeButton_white.png);
 }
 
-QDockWidget::title {
+ODockWidget::title {
     text-align: left;/* align the text to the left */
     background: #535353;
     padding-left:5px;
 }
 
-QDockWidget::close-button:hover,QDockWidget::float-button:hover {
+ODockWidget::close-button:hover,ODockWidget::float-button:hover {
     background: gray;
 }
 
-QDockWidget::close-button:pressed,QDockWidget::float-button:pressed {
+ODockWidget::close-button:pressed,ODockWidget::float-button:pressed {
     padding:1px-1px-1px1px;
 }
 
-QDockWidget::close-button {
+ODockWidget::close-button {
     subcontrol-position: center right;
     subcontrol-origin: margin;
     position: absolute;
@@ -139,7 +217,7 @@ QDockWidget::close-button {
     height:20px;
 }
 
-QDockWidget::float-button {
+ODockWidget::float-button {
     subcontrol-position: center right;
     subcontrol-origin: margin;
     position: absolute;
@@ -148,17 +226,17 @@ QDockWidget::float-button {
     height:20px;
 }
 
-QDockWidget QPushButton{
+ODockWidget QPushButton{
     border: none;
     background:#535353;
 }
 
-QDockWidget QPushButton:hover{
+ODockWidget QPushButton:hover{
     border: none;
     background:#454545;
 }
 
-QDockWidget QPushButton:pressed{
+ODockWidget QPushButton:pressed{
     border: none;
     background:#383838;
 }

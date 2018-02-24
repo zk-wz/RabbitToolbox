@@ -3,6 +3,19 @@
 MainWindow::MainWindow(QWidget *parent) :
     OMainWindow(parent)
 {
+	// menu
+	menuBar = new QMenuBar(this);
+	QMenu *fileMenu = new QMenu(tr("File"), this);
+	QMenu *editMenu = new QMenu(tr("Edit"), this);
+	QMenu *viewMenu = new QMenu(tr("View"), this);
+	QMenu *helpMenu = new QMenu(tr("Help"), this);
+
+	menuBar->addMenu(fileMenu);
+	menuBar->addMenu(editMenu);
+	menuBar->addMenu(viewMenu);
+	menuBar->addMenu(helpMenu);
+	this->setMenuBar(menuBar);
+
     // dock
     viewDock = new ODockWidget(this);
     commandDock = new ODockWidget(this);
