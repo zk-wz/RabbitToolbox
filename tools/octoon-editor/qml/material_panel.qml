@@ -3,37 +3,34 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.3
 import "./controls" as OctoonControls
 
-Item{
-    width: 260
-    height: 400
-    Rectangle{
+
+Rectangle{
+    color: "#323232"
+    Column{
         anchors.fill: parent
-        color: "#323232"
-        Column{
-            anchors.fill: parent
 
-            Row{
-                OctoonControls.OTextArea{
-                    text:"width:"+parent.parent.width
-                }
-                OctoonControls.OTextArea{
-                    text:"height:"+parent.parent.height
-                }
+        Row{
+            OctoonControls.OTextArea{
+                text:"width:"+parent.parent.width
             }
+            OctoonControls.OTextArea{
+                text:"height:"+parent.parent.height
+            }
+        }
 
-            OctoonControls.OButton{
-                id: loadButton
-                text: "open"
-            }
-            OctoonControls.OButton{
-                id: saveButton
-                text: "Save"
-            }
-            OctoonControls.OButton{
-                id: exitButton
-                text: "Exit"
-            }
+        OctoonControls.OButton{
+            id: loadButton
+            text: "open"
+        }
+        OctoonControls.OButton{
+            id: saveButton
+            text: "Save"
+        }
+        OctoonControls.OButton{
+            id: exitButton
+            text: "Exit"
         }
     }
 }
+
 

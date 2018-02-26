@@ -3,35 +3,30 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.3
 import "./controls" as OctoonControls
 
-Item{
-    width: 260
-    height: 400
-    Rectangle{
+
+Rectangle{
+    color: "#323232"
+    Column{
         anchors.fill:parent
-        color: "#323232"
-        Column{
-            anchors.fill:parent
 
-            Row{
-                OctoonControls.OTextArea{
-                    text:"width:"+parent.parent.width
-                }
-                OctoonControls.OTextArea{
-                    text:"height:"+parent.parent.height
-                }
+        Row{
+            OctoonControls.OTextArea{
+                text:"width:"+parent.parent.width
             }
-
-            Flow{
-                width: parent.width
-                anchors.margins: 4
-                spacing: 10
-                OctoonControls.OSearchBar{
-                }
+            OctoonControls.OTextArea{
+                text:"height:"+parent.parent.height
             }
+        }
 
-            Row{
-
+        Flow{
+            width: parent.width
+            spacing: 10
+            OctoonControls.OSearchBar{
             }
+        }
+
+        Row{
+
         }
     }
 }

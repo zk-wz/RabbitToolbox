@@ -29,16 +29,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // panel
     commandPanel = new QQuickWidget;
-	commandPanel->setResizeMode(QQuickWidget::SizeViewToRootObject);
     commandPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/controls/OButton.qml"));
+	commandPanel->setResizeMode(QQuickWidget::SizeRootObjectToView);
 	
     hierarchyPanel = new QQuickWidget;
-	hierarchyPanel->setResizeMode(QQuickWidget::SizeViewToRootObject);
     hierarchyPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/hierarchy_panel.qml"));
+	hierarchyPanel->setResizeMode(QQuickWidget::SizeRootObjectToView);
 	
 	materialPanel = new QQuickWidget;
-	materialPanel->setResizeMode(QQuickWidget::SizeViewToRootObject);
 	materialPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/material_panel.qml"));
+	materialPanel->setResizeMode(QQuickWidget::SizeRootObjectToView);
 	
     viewPanel = new OViewWidget(viewDock);
 
