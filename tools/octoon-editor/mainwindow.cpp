@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     commandDock = new ODockWidget(this);
     hierarchyDock = new ODockWidget(this);
 	materialDock = new ODockWidget(this);
+	projectDock = new ODockWidget(this);
+	consoleDock = new ODockWidget(this);
 
     // panel
     commandPanel = new QQuickWidget;
@@ -42,27 +44,43 @@ MainWindow::MainWindow(QWidget *parent) :
 	
     viewPanel = new OViewWidget(viewDock);
 
+	projectPanel = new QQuickWidget;
+	projectPanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/project_panel.qml"));
+	projectPanel->setResizeMode(QQuickWidget::SizeRootObjectToView);
+
+	consolePanel = new QQuickWidget;
+	consolePanel->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/console_panel.qml"));
+	consolePanel->setResizeMode(QQuickWidget::SizeRootObjectToView);
+
     viewDock->setWidget(viewPanel);
     viewDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     viewDock->setWindowTitle("View Panel");
 
-    commandDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    //commandDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     commandDock->setWidget(commandPanel);
     commandDock->setWindowTitle("Command Panel");
 
-	hierarchyDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	//hierarchyDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 	hierarchyDock->setWidget(hierarchyPanel);
 	hierarchyDock->setWindowTitle("Hierarchy Panel");
 
-	materialDock->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
+	//materialDock->setAllowedAreas(Qt::BottomDockWidgetArea | Qt::TopDockWidgetArea);
 	materialDock->setWidget(materialPanel);
 	materialDock->setWindowTitle("Material Panel");
 	materialDock->setMinimumHeight(100);
+
+	projectDock->setWidget(projectPanel);
+	projectDock->setWindowTitle("Project Panel");
+
+	consoleDock->setWidget(consolePanel);
+	consoleDock->setWindowTitle("Console Panel");
 
     this->setCentralWidget(viewDock);
     this->addDockWidget(Qt::RightDockWidgetArea,commandDock);
     this->addDockWidget(Qt::LeftDockWidgetArea,hierarchyDock);
 	this->addDockWidget(Qt::BottomDockWidgetArea, materialDock);
+	this->addDockWidget(Qt::BottomDockWidgetArea, projectDock);
+	this->addDockWidget(Qt::BottomDockWidgetArea, consoleDock);
 }
 
 MainWindow::~MainWindow()

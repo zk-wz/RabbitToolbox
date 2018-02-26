@@ -38,10 +38,14 @@ protected:
     ODockWidget *commandDock;
     ODockWidget *hierarchyDock;
 	ODockWidget *materialDock;
+	ODockWidget *projectDock;
+	ODockWidget *consoleDock;
 
     QQuickWidget *commandPanel;
     QQuickWidget *hierarchyPanel;
 	QQuickWidget *materialPanel;
+	QQuickWidget *projectPanel;
+	QQuickWidget *consolePanel;
     OViewWidget *viewPanel;
 
 	QMenuBar *menuBar;

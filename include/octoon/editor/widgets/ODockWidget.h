@@ -35,6 +35,7 @@ public:
 	void setWindowTitle(const QString &title)
 	{
 		titleBar->setWindowTitle(title);
+		QDockWidget::setWindowTitle(title);
 	}
 private:
 	ODockTitleBar * titleBar;
