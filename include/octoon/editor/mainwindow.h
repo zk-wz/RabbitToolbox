@@ -13,6 +13,7 @@
 
 #include <QMenuBar>
 #include <QMenu>
+#include <QQuickView>
 #include <QtQuickWidgets/QQuickWidget>
 
 #include <octoon/octoon.h>
@@ -32,6 +33,9 @@ class MainWindow : public OMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+public slots:
+	void showAboutDialog();
 
 protected:
     ODockWidget *viewDock;

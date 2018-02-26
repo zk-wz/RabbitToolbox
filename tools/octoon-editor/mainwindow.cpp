@@ -16,8 +16,23 @@ MainWindow::MainWindow(QWidget *parent) :
 	menuBar->addMenu(viewMenu);
 	menuBar->addMenu(helpMenu);
 
-	fileMenu->addAction(tr("New"));
-	fileMenu->addAction(tr("Open"));
+	fileMenu->addAction(tr("New Scence"));
+	fileMenu->addAction(tr("Open Scence"));
+	fileMenu->addSeparator();
+	fileMenu->addAction(tr("Save Scence"));
+	fileMenu->addAction(tr("Save Scence As"));
+	fileMenu->addSeparator();
+	fileMenu->addAction(tr("New Project"));
+	fileMenu->addAction(tr("Open Project"));
+	fileMenu->addAction(tr("Save Project"));
+	fileMenu->addSeparator();
+	fileMenu->addAction(tr("Exit"));
+
+
+	QAction *aboutAction = new QAction(tr("&Open..."), this);
+	aboutAction->setStatusTip(tr("Open about dialog"));
+	connect(aboutAction, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
+	helpMenu->addAction(aboutAction);
 
 	this->setMenuBar(menuBar);
 
@@ -85,4 +100,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::showAboutDialog()
+{
+	QQuickView *aboutDialog = new QQuickView;
+	aboutDialog->setSource(QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/about_dialog.qml"));
+	aboutDialog->show();
 }
