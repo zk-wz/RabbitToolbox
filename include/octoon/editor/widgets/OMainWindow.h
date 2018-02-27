@@ -54,6 +54,17 @@ public:
 		winFrame.addDockWidget(area, dockwidget);
 	}
 
+	void setTabPosition(Qt::DockWidgetAreas areas, QTabWidget::TabPosition tabPosition)
+	{
+		winFrame.setTabPosition(areas, tabPosition);
+	}
+
+
+	void setDockOptions(DockOptions options)
+	{
+		winFrame.setDockOptions(options);
+	}
+
 	void setMenuBar(QMenuBar *menubar)
 	{
 		vLayout->replaceWidget(menuBar, menubar);

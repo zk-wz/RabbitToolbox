@@ -90,6 +90,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	consoleDock->setWidget(consolePanel);
 	consoleDock->setWindowTitle("Console Panel");
 
+	setDockOptions(dockOptions() |
+		QMainWindow::AllowTabbedDocks |
+		QMainWindow::AnimatedDocks);
+	setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::South);
+	setTabPosition(Qt::RightDockWidgetArea, QTabWidget::South);
+	setTabPosition(Qt::BottomDockWidgetArea, QTabWidget::South);
+	setTabPosition(Qt::LeftDockWidgetArea, QTabWidget::South);
+
     this->setCentralWidget(viewDock);
     this->addDockWidget(Qt::RightDockWidgetArea,commandDock);
     this->addDockWidget(Qt::LeftDockWidgetArea,hierarchyDock);
