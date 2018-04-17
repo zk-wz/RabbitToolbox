@@ -30,6 +30,17 @@ namespace octoon
             std::uint64_t readUInt64() except;
 
             istream& baseStream() noexcept { return base_stream; }
+
+            BinaryReader & operator >>(char& v) except;
+            BinaryReader & operator >>(bool& v) except;
+
+            BinaryReader & operator >>(std::int16_t& v) except;
+            BinaryReader & operator >>(std::int32_t& v) except;
+            BinaryReader & operator >>(std::int64_t& v) except;
+
+            BinaryReader & operator >>(std::uint16_t& v) except;
+            BinaryReader & operator >>(std::uint32_t& v) except;
+            BinaryReader & operator >>(std::uint64_t& v) except;
         private:
 			BinaryReader & operator=(const BinaryReader&) = delete;
 			BinaryReader(const BinaryReader&) = delete;

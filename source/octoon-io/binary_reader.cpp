@@ -117,5 +117,53 @@ namespace octoon
                 SwapEndian<std::uint64_t>::swap(v);
             return v;
         }
+
+        BinaryReader &
+        BinaryReader::operator >>(char& v) except
+        {
+            v = readChar();
+        }
+
+        BinaryReader &
+        BinaryReader::operator >>(bool& v) except
+        {
+            v = readBool();
+        }
+
+        BinaryReader &
+        BinaryReader::operator >>(std::int16_t& v) except
+        {
+            v = readInt16();
+        }
+
+        BinaryReader &
+        BinaryReader::operator >>(std::int32_t& v) except
+        {
+            v = readInt32();
+        }
+
+        BinaryReader &
+        BinaryReader::operator >>(std::int64_t& v) except
+        {
+            v = readInt64();
+        }
+
+        BinaryReader &
+        BinaryReader::operator >>(std::uint16_t& v) except
+        {
+            v = readUInt16();
+        }
+
+        BinaryReader &
+        BinaryReader::operator >>(std::uint32_t& v) except
+        {
+            v = readUInt32();
+        }
+
+        BinaryReader &
+        BinaryReader::operator >>(std::uint64_t& v) except
+        {
+            v = readUInt64();
+        }
     }
 }
