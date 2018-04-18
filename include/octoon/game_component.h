@@ -5,7 +5,7 @@
 
 namespace octoon
 {
-	class OCTOON_EXPORT GameComponent : public runtime::RttiInterface
+	class OCTOON_EXPORT GameComponent : public serializable, public runtime::RttiInterface
 	{
 		OctoonDeclareSubInterface(GameComponent, runtime::RttiInterface)
 	public:
@@ -77,6 +77,9 @@ namespace octoon
 
 		virtual void on_gui() except;
 
+		friend void to_json(json& j, const GameComponent& p);
+		friend void from_json(const json& j, GameComponent& p);
+
 	private:
 		friend GameObject;
 		void _setGameObject(GameObject* gameobj) noexcept;
@@ -88,6 +91,9 @@ namespace octoon
 
 		GameObject* gameObject_;
 	};
+
+	void to_json(json& j, const GameComponent& p);
+	void from_json(const json& j, GameComponent& p);
 }
 
 #endif

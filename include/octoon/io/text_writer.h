@@ -3,7 +3,6 @@
 
 #include <string>
 #include <cstdint>
-#include <octoon/io/iwriter.h>
 #include <octoon/io/istream.h>
 
 namespace octoon

@@ -2,10 +2,11 @@
 #define OCTOON_GAME_OBJECT_H_
 
 #include <octoon/game_types.h>
+#include <octoon/io/serializable.h>
 
 namespace octoon
 {
-	class OCTOON_EXPORT GameObject : public runtime::RttiInterface
+	class OCTOON_EXPORT GameObject : public serializable, public runtime::RttiInterface
 	{
 		OctoonDeclareSubClass(GameObject, runtime::RttiInterface)
 	public:
@@ -80,8 +81,33 @@ namespace octoon
 
 		GameObjectPtr clone() const except;
 
-		virtual void save() noexcept;
-		virtual void load() noexcept;
+		virtual void serialize(BinaryWriter& out) except override
+		{
+			// todo
+			JsonObject json = *this;
+			out << json;
+		}
+
+		virtual void serialize(StreamWriter& out) except override
+		{
+			JsonObject json = *this;
+			out << json;
+		}
+
+		static GameObject deserialize(BinaryReader& in) except
+		{
+			// todo
+			JsonObject json;
+			in >> json;
+			return json.get<GameObject>();
+		}
+
+		static GameObject deserialize(StreamReader& in) except
+		{
+			JsonObject json;
+			in >> json;
+			return json.get<GameObject>();
+		}
 
 	private:
 		friend class GameObjectManager;
@@ -102,6 +128,9 @@ namespace octoon
 
 		void on_gui() except;
 
+		friend void to_json(json& j, const GameObject& p);
+		friend void from_json(const json& j, GameObject& p);
+
 	private:
 		GameObject(const GameObject& copy) noexcept = delete;
 		GameObject& operator=(const GameObject& copy) noexcept = delete;
@@ -120,6 +149,9 @@ namespace octoon
 		GameComponents components_;
 		std::vector<GameComponents> dispatch_components_;
 	};
+
+	void to_json(json& j, const GameObject& p);
+	void from_json(const json& j, GameObject& p);
 }
 
 #endif
