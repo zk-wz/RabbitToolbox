@@ -40,6 +40,18 @@ namespace octoon
             virtual void writeLine(std::uint32_t v) = 0;
             virtual void writeLine(std::uint64_t v) = 0;
             virtual void writeLine(std::string v) = 0;
+
+            TextWriter& operator<<(bool v) except;
+            TextWriter& operator<<(char v) except;
+            TextWriter& operator<<(float v) except;
+            TextWriter& operator<<(double v) except;
+            TextWriter& operator<<(std::int16_t v) except;
+            TextWriter& operator<<(std::int32_t v) except;
+            TextWriter& operator<<(std::int64_t v) except;
+            TextWriter& operator<<(std::uint16_t v) except;
+            TextWriter& operator<<(std::uint32_t v) except;
+            TextWriter& operator<<(std::uint64_t v) except;
+            TextWriter& operator<<(std::string v) except;
         private:
 			TextWriter & operator=(const TextWriter&) = delete;
 			TextWriter(const TextWriter&) = delete;

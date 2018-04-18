@@ -19,6 +19,9 @@ namespace octoon
             virtual void read(char *str, std::int32_t begin, std::int32_t count) except = 0;
             virtual std::string readLine() except = 0;
             virtual std::string readToEnd() except = 0;
+
+            TextReader& operator>>(std::string& v);
+            TextReader& operator>>(int& v);
         private:
 			TextReader & operator=(const TextReader&) = delete;
 			TextReader(const TextReader&) = delete;

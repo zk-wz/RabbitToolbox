@@ -122,48 +122,56 @@ namespace octoon
         BinaryReader::operator >>(char& v) except
         {
             v = readChar();
+            return *this;
         }
 
         BinaryReader &
         BinaryReader::operator >>(bool& v) except
         {
             v = readBool();
+            return *this;
         }
 
         BinaryReader &
         BinaryReader::operator >>(std::int16_t& v) except
         {
             v = readInt16();
+            return *this;
         }
 
         BinaryReader &
         BinaryReader::operator >>(std::int32_t& v) except
         {
             v = readInt32();
+            return *this;
         }
 
         BinaryReader &
         BinaryReader::operator >>(std::int64_t& v) except
         {
             v = readInt64();
+            return *this;
         }
 
         BinaryReader &
         BinaryReader::operator >>(std::uint16_t& v) except
         {
             v = readUInt16();
+            return *this;
         }
 
         BinaryReader &
         BinaryReader::operator >>(std::uint32_t& v) except
         {
             v = readUInt32();
+            return *this;
         }
 
         BinaryReader &
         BinaryReader::operator >>(std::uint64_t& v) except
         {
             v = readUInt64();
+            return *this;
         }
     }
 }

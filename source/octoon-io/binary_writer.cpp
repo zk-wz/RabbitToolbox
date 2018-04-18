@@ -95,60 +95,70 @@ namespace octoon
         BinaryWriter::operator <<(bool v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(char v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(float v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(double v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(std::int16_t v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(std::int32_t v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(std::int64_t v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(std::uint16_t v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(std::uint32_t v) except
         {
             write(v);
+            return *this;
         }
 
         BinaryWriter&
         BinaryWriter::operator <<(std::uint64_t v) except
         {
             write(v);
+            return *this;
         }
     }
 }
