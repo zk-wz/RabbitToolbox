@@ -80,6 +80,9 @@ namespace octoon
 
 		GameObjectPtr clone() const except;
 
+		virtual void save() noexcept;
+		virtual void load() noexcept;
+
 	private:
 		friend class GameObjectManager;
 		friend class TransformComponent;

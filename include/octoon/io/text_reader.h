@@ -3,13 +3,14 @@
 
 #include <string>
 #include <cstdint>
+#include <octoon/io/ireader.h>
 #include <octoon/io/istream.h>
 
 namespace octoon
 {
     namespace io
     {
-        class OCTOON_EXPORT TextReader
+        class OCTOON_EXPORT TextReader : public IReader
         {
         public:
             TextReader() noexcept;

@@ -2,6 +2,7 @@
 #define OCTOON_BINARYREADER_H_
 
 #include <cstdint>
+#include <octoon/io/ireader.h>
 #include <octoon/io/istream.h>
 #include <octoon/io/endian.h>
 
@@ -9,7 +10,7 @@ namespace octoon
 {
     namespace io
     {
-        class OCTOON_EXPORT BinaryReader
+        class OCTOON_EXPORT BinaryReader : public IReader
         {
         public:
             BinaryReader(istream& stream) noexcept;

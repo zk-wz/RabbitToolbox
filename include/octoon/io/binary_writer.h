@@ -2,6 +2,7 @@
 #define OCTOON_BINARYWRITER_H_
 
 #include <cstdint>
+#include <octoon/io/iwriter.h>
 #include <octoon/io/ostream.h>
 #include <octoon/io/endian.h>
 
@@ -9,7 +10,7 @@ namespace octoon
 {
     namespace io
     {
-        class OCTOON_EXPORT BinaryWriter
+        class OCTOON_EXPORT BinaryWriter : public IWriter
         {
         public:
             BinaryWriter(ostream& stream) noexcept;
