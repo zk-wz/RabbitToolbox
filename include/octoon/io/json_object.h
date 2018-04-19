@@ -9,7 +9,7 @@ namespace octoon
 	using nlohmann_json = ::nlohmann::json;
     namespace io
     {
-        class JsonObject : public serializable, public nlohmann_json
+        class OCTOON_EXPORT JsonObject : public serializable, public nlohmann_json
         {
         public:
             JsonObject() = default;
@@ -51,8 +51,8 @@ namespace octoon
             }
         };
 
-        StreamWriter& operator<<(StreamWriter& s, const JsonObject& j);
-        StreamReader& operator>>(StreamReader& s, JsonObject& j);
+        //StreamWriter& operator<<(StreamWriter& s, const JsonObject& j);
+        //StreamReader& operator>>(StreamReader& s, JsonObject& j);
         //TODO
         //BinaryWriter& operator<<(BinaryWriter& s, const JsonObject& j);
     }

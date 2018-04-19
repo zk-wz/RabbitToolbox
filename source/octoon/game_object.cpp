@@ -745,7 +745,8 @@ namespace octoon
 		p.layer_ = j["layer"].get<std::uint8_t>();
 		for (unsigned int i = 0; i < p.components_.size(); ++i)
 		{
-			p.components_.push_back(j["components"][i]);
+			GameComponentPtr ptr= runtime::RttiFactory::instance()->make_shared<GameComponent>(j["components"][i]["name"].get<std::string>());
+			p.components_.push_back(ptr);
 		}
 			
 		for (unsigned int i = 0; i < p.children_.size(); ++i)

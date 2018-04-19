@@ -76,6 +76,8 @@ namespace octoon
 
 		virtual void onGui() except;
 
+		virtual io::JsonObject toJson() except { return *this; }
+
 		friend void to_json(nlohmann::json& j, const GameComponent& p);
 		friend void from_json(const nlohmann::json& j, GameComponent& p);
 

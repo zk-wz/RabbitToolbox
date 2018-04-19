@@ -6,17 +6,19 @@ namespace octoon
 {
     namespace io
     {
-        StreamWriter& operator<<(StreamWriter& s, const JsonObject& j)
-        {
-            s << j.dump();
-            return s;
-        }
+		/*
+		StreamWriter& operator<<(StreamWriter& s, const JsonObject& j)
+		{
+		s << j.dump();
+		return s;
+		}
 
-        StreamReader& operator>>(StreamReader& s, JsonObject& j)
-        {
-            std::string data = s.readLine();
-            j = nlohmann::json::parse(data.begin(), data.end());
-            return s;
-        }
+		StreamReader& operator>>(StreamReader& s, JsonObject& j)
+		{
+		std::string data = s.readLine();
+		j = nlohmann::json::parse(data.begin(), data.end());
+		return s;
+		}
+		*/
     }
 }

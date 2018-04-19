@@ -4,7 +4,7 @@
 #include <octoon/game_types.h>
 #include <octoon/io/serializable.h>
 #include <octoon/io/json_object.h>
-#include <octoon/runtime/rtti.h>
+#include <octoon/runtime/rtti_factory.h>
 
 namespace octoon
 {
@@ -83,6 +83,8 @@ namespace octoon
 
 		GameObjectPtr clone() const except;
 
+		virtual io::JsonObject toJson() except { return *this; }
+
 		virtual void serialize(io::BinaryWriter& out) except override
 		{
 			// todo
@@ -92,8 +94,7 @@ namespace octoon
 
 		virtual void serialize(io::StreamWriter& out) except override
 		{
-			io::JsonObject json = *this;
-			out << json;
+			this->toJson().serialize(out);
 		}
 
 		static GameObjectPtr deserialize(io::BinaryReader& in) except
@@ -102,6 +103,7 @@ namespace octoon
 			//io::JsonObject json;
 			//in >> json;
 			//return json.get<GameObject>();
+			return std::make_shared<GameObject>();
 		}
 
 		static GameObjectPtr deserialize(io::StreamReader& in) except
