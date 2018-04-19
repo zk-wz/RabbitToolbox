@@ -4,6 +4,7 @@
 #include <octoon/game_types.h>
 #include <octoon/io/serializable.h>
 #include <octoon/io/json_object.h>
+#include <octoon/runtime/rtti.h>
 
 namespace octoon
 {
@@ -128,12 +129,12 @@ namespace octoon
 
 		void on_gui() except;
 
-		template<typename, typename>
-		friend struct ::nlohmann::adl_serializer;
+		friend void to_json(nlohmann::json& j, const GameObject& p);
+		friend void from_json(const nlohmann::json& j, GameObject& p);
 
-	private:
-		GameObject(const GameObject& copy) noexcept = delete;
-		GameObject& operator=(const GameObject& copy) noexcept = delete;
+	//private:
+	//	GameObject(const GameObject& copy) noexcept = delete;
+	//	GameObject& operator=(const GameObject& copy) noexcept = delete;
 
 	private:
 		bool active_;
@@ -149,33 +150,8 @@ namespace octoon
 		GameComponents components_;
 		std::vector<GameComponents> dispatch_components_;
 	};
+
+	void to_json(nlohmann::json& j, const GameObject& p);
+	void from_json(const nlohmann::json& j, GameObject& p);
 }
-
-namespace nlohmann
-{
-	template <typename T>
-	struct adl_serializer<octoon::GameObject, T> {
-		static void to_json(nlohmann::json& j, const octoon::GameObject& p) {
-			j["name"] = p.name_;
-			j["active"] = p.active_;
-			j["layer"] = p.layer_;
-			for (unsigned int i = 0; i < p.components_.size(); ++i)
-				j["components"][i] = *p.components_[i];
-			for (unsigned int i = 0; i < p.children_.size(); ++i)
-				j["children"][i] = *p.children_[i];
-		}
-
-		static void from_json(const nlohmann::json& j, octoon::GameObject& p)
-		{
-			p.name_ = j["name"].get<std::string>();
-			p.active_ = j["active"].get<bool>();
-			p.layer_ = j["layer"].get<std::uint8_t>();
-			for (unsigned int i = 0; i < p.components_.size(); ++i)
-				p.components_.push_back(std::make_shared<octoon::GameComponent>(j["components"][i].get<octoon::GameComponent>()));
-			for (unsigned int i = 0; i < p.children_.size(); ++i)
-				p.children_.push_back(std::make_shared<octoon::GameObject>(j["children"][i].get<octoon::GameObject>()));
-		}
-	};
-}
-
 #endif

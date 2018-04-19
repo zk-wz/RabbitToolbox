@@ -78,8 +78,8 @@ namespace octoon
 
 		virtual void on_gui() except;
 
-		template<typename, typename>
-		friend struct ::nlohmann::adl_serializer;
+		friend void to_json(nlohmann::json& j, const GameComponent& p);
+		friend void from_json(const nlohmann::json& j, GameComponent& p);
 
 	private:
 		friend GameObject;
@@ -92,23 +92,9 @@ namespace octoon
 
 		GameObject* gameObject_;
 	};
-}
 
-namespace nlohmann
-{
-	template <typename T>
-	struct adl_serializer<octoon::GameComponent, T> {
-		static void to_json(nlohmann::json& j, const octoon::GameComponent& p) {
-			j["name"] = p.name_;
-			j["active"] = p.active_;
-		}
-
-		static void from_json(const nlohmann::json& j, octoon::GameComponent& p)
-		{
-			p.name_ = j["name"].get<std::string>();
-			p.active_ = j["name"].get<bool>();
-		}
-	};
+	void to_json(nlohmann::json& j, const GameComponent& p);
+	void from_json(const nlohmann::json& j, GameComponent& p);
 }
 
 #endif

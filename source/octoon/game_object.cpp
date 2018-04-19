@@ -694,4 +694,31 @@ namespace octoon
 		for (auto& it : components)
 			it->on_gui();
 	}
+
+	void
+	to_json(nlohmann::json& j, const octoon::GameObject& p)
+	{
+		j["name"] = p.name_;
+		j["active"] = p.active_;
+		j["layer"] = p.layer_;
+		for (unsigned int i = 0; i < p.components_.size(); ++i)
+			j["components"][i] = *p.components_[i];
+		for (unsigned int i = 0; i < p.children_.size(); ++i)
+			j["children"][i] = *p.children_[i];
+	}
+
+	void
+	from_json(const nlohmann::json& j, GameObject& p)
+	{
+		p.name_ = j["name"].get<std::string>();
+		p.active_ = j["active"].get<bool>();
+		p.layer_ = j["layer"].get<std::uint8_t>();
+		for (unsigned int i = 0; i < p.components_.size(); ++i)
+		{
+			p.components_.push_back(j["components"][i]);
+		}
+			
+		for (unsigned int i = 0; i < p.children_.size(); ++i)
+			p.children_.push_back(std::make_shared<GameObject>(j["children"][i].get<GameObject>()));
+	}
 }
