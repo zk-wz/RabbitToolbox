@@ -74,10 +74,8 @@ SET(SERIALIZATION_LIST
 	${SOURCE_PATH}/string_reader.cpp
 	${HEADER_PATH}/string_writer.h
 	${SOURCE_PATH}/string_writer.cpp
-	${HEADER_PATH}/json_reader.h
-	${SOURCE_PATH}/json_reader.cpp
-	${HEADER_PATH}/json_writer.h
-	${SOURCE_PATH}/json_writer.cpp
+	${HEADER_PATH}/json_object.h
+	${SOURCE_PATH}/json_object.cpp
 )
 SOURCE_GROUP(${LIB_NAME}\\serialization FILES ${SERIALIZATION_LIST})
 

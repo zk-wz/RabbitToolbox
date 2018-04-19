@@ -3,10 +3,11 @@
 
 #include <octoon/game_types.h>
 #include <octoon/io/serializable.h>
+#include <octoon/io/json_object.h>
 
 namespace octoon
 {
-	class OCTOON_EXPORT GameObject : public serializable, public runtime::RttiInterface
+	class OCTOON_EXPORT GameObject : public io::serializable, public runtime::RttiInterface
 	{
 		OctoonDeclareSubClass(GameObject, runtime::RttiInterface)
 	public:
@@ -81,32 +82,31 @@ namespace octoon
 
 		GameObjectPtr clone() const except;
 
-		virtual void serialize(BinaryWriter& out) except override
+		virtual void serialize(io::BinaryWriter& out) except override
 		{
 			// todo
-			JsonObject json = *this;
+			//io::JsonObject json = *this;
+			//out << json;
+		}
+
+		virtual void serialize(io::StreamWriter& out) except override
+		{
+			io::JsonObject json = *this;
 			out << json;
 		}
 
-		virtual void serialize(StreamWriter& out) except override
-		{
-			JsonObject json = *this;
-			out << json;
-		}
-
-		static GameObject deserialize(BinaryReader& in) except
+		static GameObjectPtr deserialize(io::BinaryReader& in) except
 		{
 			// todo
-			JsonObject json;
-			in >> json;
-			return json.get<GameObject>();
+			//io::JsonObject json;
+			//in >> json;
+			//return json.get<GameObject>();
 		}
 
-		static GameObject deserialize(StreamReader& in) except
+		static GameObjectPtr deserialize(io::StreamReader& in) except
 		{
-			JsonObject json;
-			in >> json;
-			return json.get<GameObject>();
+			io::JsonObject json = io::JsonObject::deserialize(in);
+			return std::make_shared<GameObject>(json.get<GameObject>());
 		}
 
 	private:
@@ -128,8 +128,8 @@ namespace octoon
 
 		void on_gui() except;
 
-		friend void to_json(json& j, const GameObject& p);
-		friend void from_json(const json& j, GameObject& p);
+		template<typename, typename>
+		friend struct ::nlohmann::adl_serializer;
 
 	private:
 		GameObject(const GameObject& copy) noexcept = delete;
@@ -149,9 +149,33 @@ namespace octoon
 		GameComponents components_;
 		std::vector<GameComponents> dispatch_components_;
 	};
+}
 
-	void to_json(json& j, const GameObject& p);
-	void from_json(const json& j, GameObject& p);
+namespace nlohmann
+{
+	template <typename T>
+	struct adl_serializer<octoon::GameObject, T> {
+		static void to_json(nlohmann::json& j, const octoon::GameObject& p) {
+			j["name"] = p.name_;
+			j["active"] = p.active_;
+			j["layer"] = p.layer_;
+			for (unsigned int i = 0; i < p.components_.size(); ++i)
+				j["components"][i] = *p.components_[i];
+			for (unsigned int i = 0; i < p.children_.size(); ++i)
+				j["children"][i] = *p.children_[i];
+		}
+
+		static void from_json(const nlohmann::json& j, octoon::GameObject& p)
+		{
+			p.name_ = j["name"].get<std::string>();
+			p.active_ = j["active"].get<bool>();
+			p.layer_ = j["layer"].get<std::uint8_t>();
+			for (unsigned int i = 0; i < p.components_.size(); ++i)
+				p.components_.push_back(std::make_shared<octoon::GameComponent>(j["components"][i].get<octoon::GameComponent>()));
+			for (unsigned int i = 0; i < p.children_.size(); ++i)
+				p.children_.push_back(std::make_shared<octoon::GameObject>(j["children"][i].get<octoon::GameObject>()));
+		}
+	};
 }
 
 #endif

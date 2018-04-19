@@ -2,10 +2,11 @@
 #define OCTOON_COMPONENT_H_
 
 #include <octoon/game_object.h>
+#include <octoon/io/json_object.h>
 
 namespace octoon
 {
-	class OCTOON_EXPORT GameComponent : public serializable, public runtime::RttiInterface
+	class OCTOON_EXPORT GameComponent : public runtime::RttiInterface
 	{
 		OctoonDeclareSubInterface(GameComponent, runtime::RttiInterface)
 	public:
@@ -77,8 +78,8 @@ namespace octoon
 
 		virtual void on_gui() except;
 
-		friend void to_json(json& j, const GameComponent& p);
-		friend void from_json(const json& j, GameComponent& p);
+		template<typename, typename>
+		friend struct ::nlohmann::adl_serializer;
 
 	private:
 		friend GameObject;
@@ -91,9 +92,23 @@ namespace octoon
 
 		GameObject* gameObject_;
 	};
+}
 
-	void to_json(json& j, const GameComponent& p);
-	void from_json(const json& j, GameComponent& p);
+namespace nlohmann
+{
+	template <typename T>
+	struct adl_serializer<octoon::GameComponent, T> {
+		static void to_json(nlohmann::json& j, const octoon::GameComponent& p) {
+			j["name"] = p.name_;
+			j["active"] = p.active_;
+		}
+
+		static void from_json(const nlohmann::json& j, octoon::GameComponent& p)
+		{
+			p.name_ = j["name"].get<std::string>();
+			p.active_ = j["name"].get<bool>();
+		}
+	};
 }
 
 #endif

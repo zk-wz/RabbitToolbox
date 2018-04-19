@@ -9,7 +9,7 @@ namespace octoon
 {
     namespace io
     {
-        class OCTOON_EXPORT TextWriter : public IWriter
+        class OCTOON_EXPORT TextWriter
         {
         public:
         	TextWriter() noexcept;

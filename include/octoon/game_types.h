@@ -3,6 +3,7 @@
 
 #include <octoon/math/math.h>
 #include <octoon/input/input.h>
+#include <octoon/io/json_object.h>
 
 namespace octoon
 {

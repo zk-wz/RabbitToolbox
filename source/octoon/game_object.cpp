@@ -694,24 +694,4 @@ namespace octoon
 		for (auto& it : components)
 			it->on_gui();
 	}
-
-	void
-	to_json(json& j, const GameObject& p)
-	{
-		j["name"] = p.name_;
-		j["active"] = p.active_;
-		j["layer"] = p.layer_;
-		for(unsigned int i = 0; i < components_.size(); ++i)
-			j["components"][i] = p.components_[i];
-	}
-
-	void
-	from_json(const json& j, GameObject& p)
-	{
-		p.name_ = j["name"].get<std::string>();
-		p.active_ = j["active"].get<bool>();
-		p.layer_ = j["layer"].get<std::uint8_t>();
-		for(unsigned int i = 0; i < components_.size(); ++i)
-			p.components_.push_back(j["components"][i].get<GameComponent>());
-	}
 }

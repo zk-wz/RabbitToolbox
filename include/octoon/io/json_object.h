@@ -6,57 +6,55 @@
 
 namespace octoon
 {
+	using nlohmann_json = ::nlohmann::json;
     namespace io
     {
-        class JsonObject : public Serializable
+        class JsonObject : public serializable, public nlohmann_json
         {
         public:
             JsonObject() = default;
-            JsonObject(nlohmann::json&& json_)
-                :json(json_)
+            JsonObject(nlohmann_json&& json_)
+                :nlohmann_json(json_)
             {
             }
 
-            JsonObject(const nlohmann::json& json_)
-                :json(json_)
+            JsonObject(const nlohmann_json& json_)
+                :nlohmann_json(json_)
             {
-            }
-
-            template<class T>
-            JsonObj& operator[](const T& key)
-            {
-                return json[key];
             }
 
             virtual void serialize(BinaryWriter& out) except override
             {
-                out.write(json.dump());
+				//TODO
+                //out.write(dump());
             }
 
             virtual void serialize(StreamWriter& out) except override
             {
-                out.write(json.dump());
+                out.write(dump());
             }
 
             static JsonObject deserialize(BinaryReader& in) except
             {
-                std::string data = in.readToEnd();
-                JsonObject json = nlohmann::json::parse(data.begin(), data.end());
-                JsonObject obj(json);
-                return json;
+                //TODO
+                //std::string data = in.readToEnd();
+                //nlohmann_json json = nlohmann_json::parse(data.begin(), data.end());
+                //return JsonObject(json);
+                return nlohmann_json();
             }
 
             static JsonObject deserialize(StreamReader& in) except
             {
                 std::string data = in.readLine();
-                JsonObject json = nlohmann::json::parse(data.begin(), data.end());
-                JsonObject obj(json);
-                return json;
+                nlohmann_json json = nlohmann_json::parse(data.begin(), data.end());
+                return JsonObject(json);
             }
-        private:
-            using JsonObj = nlohmann::json;
-            JsonObj json;
         };
+
+        StreamWriter& operator<<(StreamWriter& s, const JsonObject& j);
+        StreamReader& operator>>(StreamReader& s, JsonObject& j);
+        //TODO
+        //BinaryWriter& operator<<(BinaryWriter& s, const JsonObject& j);
     }
 }
 

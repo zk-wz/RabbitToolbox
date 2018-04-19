@@ -239,18 +239,4 @@ namespace octoon
 	GameComponent::on_gui() except
 	{
 	}
-
-	void
-	to_json(json& j, const GameComponent& p)
-	{
-		j["name"] = p.name_;
-		j["active"] = p.active_;
-	}
-
-	void
-	from_json(const json& j, GameComponent& p)
-	{
-		p.name_ = j["name"].get<std::string>();
-		p.active_ = j["name"].get<bool>();
-	}
 }

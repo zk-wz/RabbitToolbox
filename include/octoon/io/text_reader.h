@@ -9,7 +9,7 @@ namespace octoon
 {
     namespace io
     {
-        class OCTOON_EXPORT TextReader : public IReader
+        class OCTOON_EXPORT TextReader
         {
         public:
             TextReader() noexcept;
