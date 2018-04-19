@@ -45,11 +45,11 @@ bool OViewWidget::OctoonOpenWindow(const char* title, int w, int h) noexcept
 
 		gameApp_ = std::make_shared<octoon::GameApplication>();
 		gameApp_->open(hwnd, w, h, w, h);
-		gameApp_->set_active(true);
+		gameApp_->setActive(true);
 
 		if (!gameScenePath_.empty())
 		{
-			if (!gameApp_->open_scene(gameScenePath_))
+			if (!gameApp_->openScene(gameScenePath_))
 				throw std::runtime_error("GameApplication::open_scene() failed");
 		}
 
@@ -88,7 +88,7 @@ void OViewWidget::resizeEvent(QResizeEvent *e)
 			event.change.h = height();
 			event.change.windowID = (std::uint64_t)winId();
 			event.change.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
-			gameApp_->send_input_event(event);
+			gameApp_->sendInputEvent(event);
 		}
 		{
 			octoon::input::InputEvent event;
@@ -97,7 +97,7 @@ void OViewWidget::resizeEvent(QResizeEvent *e)
 			event.change.h = height();
 			event.change.windowID = (std::uint64_t)winId();
 			event.change.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
-			gameApp_->send_input_event(event);
+			gameApp_->sendInputEvent(event);
 		}
 		appUpdate();
 	}
@@ -117,7 +117,7 @@ void OViewWidget::mouseMoveEvent(QMouseEvent * e)
 		event.motion.state = false;
 		event.motion.windowID = (std::uint64_t)winId();
 
-		gameApp_->send_input_event(event);
+		gameApp_->sendInputEvent(event);
 		appUpdate();
 	}
 }
@@ -143,7 +143,7 @@ void OViewWidget::mousePressEvent(QMouseEvent * e)
 		else if (e->button() == Qt::MiddleButton)
 			event.button.button = octoon::input::InputButton::Middle;
 
-		gameApp_->send_input_event(event);
+		gameApp_->sendInputEvent(event);
 		appUpdate();
 	}
 }
@@ -169,7 +169,7 @@ void OViewWidget::mouseReleaseEvent(QMouseEvent * e)
 		else if (e->button() == Qt::MiddleButton)
 			event.button.button = octoon::input::InputButton::Middle;
 
-		gameApp_->send_input_event(event);
+		gameApp_->sendInputEvent(event);
 		appUpdate();
 	}
 }
@@ -195,7 +195,7 @@ void OViewWidget::mouseDoubleClickEvent(QMouseEvent * e)
 		else if (e->button() == Qt::MiddleButton)
 			doubleClick.button.button = octoon::input::InputButton::Middle;
 
-		gameApp_->send_input_event(doubleClick);
+		gameApp_->sendInputEvent(doubleClick);
 		appUpdate();
 	}
 }
@@ -209,7 +209,7 @@ void OViewWidget::wheelEvent(QWheelEvent * e)
 		event.wheel.timestamp = QDateTime::currentDateTime().toMSecsSinceEpoch();
 		event.wheel.windowID = (std::uint64_t)winId();
 
-		gameApp_->send_input_event(event);
+		gameApp_->sendInputEvent(event);
 		appUpdate();
 	}
 }
