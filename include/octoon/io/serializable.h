@@ -7,6 +7,7 @@
 #include <octoon/io/stream_writer.h>
 #include <octoon/io/binary_reader.h>
 #include <octoon/io/stream_reader.h>
+#include <octoon/io/serialization_info.h>
 
 namespace octoon
 {
@@ -15,8 +16,7 @@ namespace octoon
         class serializable
         {
         public:
-            virtual void serialize(BinaryWriter& out) = 0;
-            virtual void serialize(StreamWriter& out) = 0;
+            virtual void GetObjectData(SerializationInfo& info) = 0;
         };
     }
 }

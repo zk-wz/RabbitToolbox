@@ -726,6 +726,16 @@ namespace octoon
 	}
 
 	void
+	GameObject::GetObjectData(SerializationInfo& info)
+	{
+		info.addValue<std::string>("name", name_);
+		info.addValue<bool>("active", active_);
+		info.addValue<std::uint8_t>("layer", layer_);
+		info.addValue<GameComponents>("components", components_);
+		info.addValue<std::vector<GameComponentRaws>>("children", children_);
+	}
+
+	void
 	to_json(nlohmann::json& j, const octoon::GameObject& p)
 	{
 		j["name"] = p.name_;
@@ -748,7 +758,7 @@ namespace octoon
 			GameComponentPtr ptr= runtime::RttiFactory::instance()->make_shared<GameComponent>(j["components"][i]["name"].get<std::string>());
 			p.components_.push_back(ptr);
 		}
-			
+
 		for (unsigned int i = 0; i < p.children_.size(); ++i)
 			p.children_.push_back(std::make_shared<GameObject>(j["children"][i].get<GameObject>()));
 	}

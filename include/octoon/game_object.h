@@ -83,34 +83,7 @@ namespace octoon
 
 		GameObjectPtr clone() const except;
 
-		virtual io::JsonObject toJson() except { return *this; }
-
-		virtual void serialize(io::BinaryWriter& out) except override
-		{
-			// todo
-			//io::JsonObject json = *this;
-			//out << json;
-		}
-
-		virtual void serialize(io::StreamWriter& out) except override
-		{
-			this->toJson().serialize(out);
-		}
-
-		static GameObjectPtr deserialize(io::BinaryReader& in) except
-		{
-			// todo
-			//io::JsonObject json;
-			//in >> json;
-			//return json.get<GameObject>();
-			return std::make_shared<GameObject>();
-		}
-
-		static GameObjectPtr deserialize(io::StreamReader& in) except
-		{
-			io::JsonObject json = io::JsonObject::deserialize(in);
-			return std::make_shared<GameObject>(json.get<GameObject>());
-		}
+		virtual void GetObjectData(SerializationInfo& info);
 
 	private:
 		friend class GameComponent;
