@@ -13,20 +13,31 @@ namespace octoon
         class JsonFormatter:public Formatter
         {
         public:
-            JsonFormatter() except;
-            virtual serializable deserialize(istream& stream) except;
-            virtual void serialize(ostream& stream, serializable obj) except;
-            virtual void writeValueType(type::any value, std::string name, std::type_info type) except;
-        private:
-            std::unordered_map<std::size_t, std::function<void toJson(JsonObject&, type::any,std::string)>> to_json_mapper;
-            std::unordered_map<std::size_t, std::function<void fromJson(const JsonObject&, type::any &,std::string)>> from_json_mapper;
-        };
+            virtual void deserialize(istream& stream, const std::string& name, bool& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, float& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, double& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, char& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, unsigned char& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, std::int16_t& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, std::int32_t& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, std::int64_t& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, std::uint16_t& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, std::uint32_t& v) except;
+            virtual void deserialize(istream& stream, const std::string& name, std::uint64_t& v) except;
 
-        template <class T>
-        void toJson(JsonObject& json, type::any value,std::string name)
-        {
-            json[name] = type::any_cast<T>(value);
-        }
+
+            virtual void serialize(ostream& stream, const std::string& name, bool v) except;
+            virtual void serialize(ostream& stream, const std::string& name, float v) except;
+            virtual void serialize(ostream& stream, const std::string& name, double v) except;
+            virtual void serialize(ostream& stream, const std::string& name, char v) except;
+            virtual void serialize(ostream& stream, const std::string& name, unsigned char v) except;
+            virtual void serialize(ostream& stream, const std::string& name, std::int16_t v) except;
+            virtual void serialize(ostream& stream, const std::string& name, std::int32_t v) except;
+            virtual void serialize(ostream& stream, const std::string& name, std::int64_t v) except;
+            virtual void serialize(ostream& stream, const std::string& name, std::uint16_t v) except;
+            virtual void serialize(ostream& stream, const std::string& name, std::uint32_t v) except;
+            virtual void serialize(ostream& stream, const std::string& name, std::uint64_t v) except;
+        };
     }
 }
 

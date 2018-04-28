@@ -17,32 +17,30 @@ namespace octoon
         class Formatter
         {
         public:
-            virtual serializable deserialize(istream& stream) except = 0;
-            virtual void serialize(ostream& stream, serializable obj) except = 0;
+            virtual void deserialize(istream& stream, bool& v) except = 0;
+            virtual void deserialize(istream& stream, float& v) except = 0;
+            virtual void deserialize(istream& stream, double& v) except = 0;
+            virtual void deserialize(istream& stream, char& v) except = 0;
+            virtual void deserialize(istream& stream, unsigned char& v) except = 0;
+            virtual void deserialize(istream& stream, std::int16_t& v) except = 0;
+            virtual void deserialize(istream& stream, std::int32_t& v) except = 0;
+            virtual void deserialize(istream& stream, std::int64_t& v) except = 0;
+            virtual void deserialize(istream& stream, std::uint16_t& v) except = 0;
+            virtual void deserialize(istream& stream, std::uint32_t& v) except = 0;
+            virtual void deserialize(istream& stream, std::uint64_t& v) except = 0;
 
-            virtual void writeArray(std::vector<type::any>, std::string) except = 0;
 
-            virtual void writeBool(bool, std::string) except = 0;
-
-            virtual void writeChar(char, std::string) except = 0;
-
-            virtual void writeFloat(float, std::string) except = 0;
-
-            virtual void writeDouble(double, std::string)	except = 0;
-
-            virtual void writeInt16(std::int16_t, std::string) except = 0;
-
-            virtual void writeInt32(std::int32_t, std::string) except = 0;
-
-            virtual void writeInt64(std::int64_t, std::string) except = 0;
-
-            virtual void writeUInt16(std::uint16_t, std::string) except = 0;
-
-            virtual void writeUInt32(std::uint32_t, std::string) except = 0;
-
-            virtual void writeUInt64(std::uint64_t, std::string) except = 0;
-
-            virtual void writeValueType(type::any value, std::string name, std::type_info type) except = 0;
+            virtual void serialize(ostream& stream, bool v) except = 0;
+            virtual void serialize(ostream& stream, float v) except = 0;
+            virtual void serialize(ostream& stream, double v) except = 0;
+            virtual void serialize(ostream& stream, char v) except = 0;
+            virtual void serialize(ostream& stream, unsigned char v) except = 0;
+            virtual void serialize(ostream& stream, std::int16_t v) except = 0;
+            virtual void serialize(ostream& stream, std::int32_t v) except = 0;
+            virtual void serialize(ostream& stream, std::int64_t v) except = 0;
+            virtual void serialize(ostream& stream, std::uint16_t v) except = 0;
+            virtual void serialize(ostream& stream, std::uint32_t v) except = 0;
+            virtual void serialize(ostream& stream, std::uint64_t v) except = 0;
         };
     }
 }

@@ -6,43 +6,203 @@ namespace octoon
 {
     namespace io
     {
-        JsonFormatter::JsonFormatter() except
-        {
-            mapper.insert(std::make_pair(typeid(bool).hash_code(), &toJson<bool>));
-            mapper.insert(std::make_pair(typeid(float).hash_code(), &toJson<float>));
-            mapper.insert(std::make_pair(typeid(double).hash_code(), &toJson<double>));
-            mapper.insert(std::make_pair(typeid(char).hash_code(), &toJson<char>));
-            mapper.insert(std::make_pair(typeid(unsigned char).hash_code(), &toJson<unsigned char>));
-            mapper.insert(std::make_pair(typeid(std::int16_t).hash_code(), &toJson<std::int16_t>));
-            mapper.insert(std::make_pair(typeid(std::int32_t).hash_code(), &toJson<std::int32_t>));
-            mapper.insert(std::make_pair(typeid(std::int64_t).hash_code(), &toJson<std::int64_t>));
-            mapper.insert(std::make_pair(typeid(std::uint16_t).hash_code(), &toJson<std::uint16_t>));
-            mapper.insert(std::make_pair(typeid(std::uint32_t).hash_code(), &toJson<std::uint32_t>));
-            mapper.insert(std::make_pair(typeid(std::uint64_t).hash_code(), &toJson<std::uint64_t>));
-        }
-
-        void JsonFormatter::deserialize(istream& stream) except override
+        void
+        deserialize(istream &stream, const std::string &name, bool &v) except
         {
             JsonObject retval;
             StreamReader reader(stream);
-
+            retval.deserialize(reader);
+            v = retval[name];
         }
 
-        void JsonFormatter::serialize(ostream& stream, serializable obj) except override
+        void
+        deserialize(istream &stream, const std::string &name, float &v) except
         {
-            SerializationInfo info;
             JsonObject retval;
-            obj.GetObjectData(info);
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
 
-            for (auto & each : info.info)
-            {
-                mapper[each.second.type().hash_code()](
-                    retval[each.first],
-                    each.second,
-                    each.first);
-            }
+        void
+        deserialize(istream &stream, const std::string &name, double &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
 
-            retval.serialize(stream);
+        void
+        deserialize(istream &stream, const std::string &name, char &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+        void
+        deserialize(istream &stream, const std::string &name, unsigned char &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+        void
+        deserialize(istream &stream, const std::string &name, std::int16_t &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+        void
+        deserialize(istream &stream, const std::string &name, std::int32_t &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+        void
+        deserialize(istream &stream, const std::string &name, std::int64_t &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+        void
+        deserialize(istream &stream, const std::string &name, std::uint16_t &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+        void
+        deserialize(istream &stream, const std::string &name, std::uint32_t &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+        void
+        deserialize(istream &stream, const std::string &name, std::uint64_t &v) except
+        {
+            JsonObject retval;
+            StreamReader reader(stream);
+            retval.deserialize(reader);
+            v = retval[name];
+        }
+
+
+        void
+        serialize(ostream &stream, const std::string &name, bool v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, float v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, double v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, char v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, unsigned char v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, std::int16_t v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, std::int32_t v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, std::int64_t v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, std::uint16_t v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, std::uint32_t v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
+        }
+
+        void
+        serialize(ostream &stream, const std::string &name, std::uint64_t v) except
+        {
+            JsonObject retval;
+            StreamWriter writer(stream);
+            retval[name] = v;
+            v.serialize(writer);
         }
     }
 }
