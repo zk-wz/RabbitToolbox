@@ -210,4 +210,10 @@ namespace type {
   };
 
   any::erasure::~erasure() { }
+
+  template<class ValueType>
+  ValueType any_cast(const any& operand)
+  {
+    return operand.as<ValueType>();
+  }
 }
