@@ -726,22 +726,23 @@ namespace octoon
 	}
 
 	void
-	GameObject::serialize(ostream& stream)
+	GameObject::serialize(FormatWriter& writer)
 	{
-		JsonFormatter formatter;
-		formatter.serialize("name", name_);
-		formatter.serialize("active", active_);
-		formatter.serialize("layer", layer_);
-		for (unsigned int i = 0; i < components_.size(); ++i)
-			formatter.serialize("components", components_[i].save());
-		for (unsigned int i = 0; i < children_.size(); ++i)
-			j["children"][i] = *p.children_[i];
+		writer["name"] << name_;
+		writer["active"] << active_;
+		writer["layer"] << layer_;
+		writer["components"] << components_;
+		writer["children"] << children_;
 	}
-        
-	void
-	GameObject::deserialize(istream& stream)
-	{
 
+    void
+	GameObject::deserialize(FormatReader& reader)
+	{
+		writer["name"] >> name_;
+		writer["active"] >> active_;
+		writer["layer"] >> layer_;
+		writer["components"] >> components_;
+		writer["children"] >> *children_;
 	}
 
 	void
