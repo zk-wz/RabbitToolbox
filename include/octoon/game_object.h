@@ -110,6 +110,9 @@ namespace octoon
 
 		void onGui() except;
 
+		virtual void serialize(ostream& stream);
+        virtual void deserialize(istream& stream);
+
 		friend void to_json(nlohmann::json& j, const GameObject& p);
 		friend void from_json(const nlohmann::json& j, GameObject& p);
 

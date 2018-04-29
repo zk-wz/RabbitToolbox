@@ -726,13 +726,22 @@ namespace octoon
 	}
 
 	void
-	GameObject::GetObjectData(SerializationInfo& info)
+	GameObject::serialize(ostream& stream)
 	{
-		info.addValue<std::string>("name", name_);
-		info.addValue<bool>("active", active_);
-		info.addValue<std::uint8_t>("layer", layer_);
-		info.addValue<GameComponents>("components", components_);
-		info.addValue<std::vector<GameComponentRaws>>("children", children_);
+		JsonFormatter formatter;
+		formatter.serialize("name", name_);
+		formatter.serialize("active", active_);
+		formatter.serialize("layer", layer_);
+		for (unsigned int i = 0; i < components_.size(); ++i)
+			formatter.serialize("components", components_[i].save());
+		for (unsigned int i = 0; i < children_.size(); ++i)
+			j["children"][i] = *p.children_[i];
+	}
+        
+	void
+	GameObject::deserialize(istream& stream)
+	{
+
 	}
 
 	void
