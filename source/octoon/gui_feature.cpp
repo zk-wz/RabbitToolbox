@@ -1,11 +1,11 @@
-#if defined(OCTOON_FEATURE_INPUT_ENABLE)
+#if defined(OCTOON_FEATURE_UI_ENABLE)
 #include <octoon/gui_feature.h>
 
 #include <octoon/input_feature.h>
 #include <octoon/input/input_event.h>
 
+#include <octoon/game_app.h>
 #include <octoon/game_server.h>
-#include <octoon/game_application.h>
 #include <octoon/game_object_manager.h>
 
 #include <octoon/ui/imgui.h>
@@ -15,6 +15,7 @@
 #include <octoon/runtime/rtti_factory.h>
 
 #include <octoon/timer_feature.h>
+#include <octoon/graphics_feature.h>
 
 namespace octoon
 {
@@ -43,7 +44,7 @@ namespace octoon
 	}
 
 	void
-	GuiFeature::set_viewport(std::uint32_t w, std::uint32_t h) noexcept
+	GuiFeature::setViewport(std::uint32_t w, std::uint32_t h) noexcept
 	{
 		if (width_ != w || height_ != h)
 		{
@@ -55,13 +56,13 @@ namespace octoon
 	}
 
 	void
-	GuiFeature::get_viewport(std::uint32_t& w, std::uint32_t& h) noexcept
+	GuiFeature::getViewport(std::uint32_t& w, std::uint32_t& h) noexcept
 	{
 		system_->get_viewport(w, h);
 	}
 
 	void
-	GuiFeature::set_framebuffer_scale(std::uint32_t w, std::uint32_t h) noexcept
+	GuiFeature::setFramebufferScale(std::uint32_t w, std::uint32_t h) noexcept
 	{
 		if (framebuffer_w_ != w || framebuffer_h_ != h)
 		{
@@ -73,36 +74,40 @@ namespace octoon
 	}
 
 	void
-	GuiFeature::get_framebuffer_scale(std::uint32_t& w, std::uint32_t& h) noexcept
+	GuiFeature::getFramebufferScale(std::uint32_t& w, std::uint32_t& h) noexcept
 	{
-		system_->get_framebuffer_scale(w, h);
+		system_->set_framebuffer_scale(w, h);
 	}
 
 	void
-	GuiFeature::on_activate() except
+	GuiFeature::onActivate() except
 	{
 		system_ = std::make_unique<imgui::System>();
 
-		if (!system_->open(window_))
+		auto graphics = this->getFeature<GraphicsFeature>();
+		if (!graphics)
+			throw runtime::runtime_error::create("failure to get feature with graphics", runtime::error_code::none);
+
+		if (!system_->open(window_, graphics->getDevice()))
 			throw runtime::runtime_error::create("GuiSystem::open() fail", runtime::error_code::none);
 
 		if (!system_->load_font("../../system/fonts/DroidSansFallback.ttf", 15.0f * float(width_) / framebuffer_w_))
-			throw runtime::runtime_error::create("GuiSystem::load_font() fail", runtime::error_code::none);
+			throw runtime::runtime_error::create("GuiSystem::loadFont() fail", runtime::error_code::none);
 
 		system_->set_viewport(width_, height_);
 		system_->set_framebuffer_scale(framebuffer_w_, framebuffer_h_);
 	}
 
 	void
-	GuiFeature::on_deactivate() noexcept
+	GuiFeature::onDeactivate() noexcept
 	{
 		system_->get_viewport(width_, height_);
-		system_->get_framebuffer_scale(framebuffer_w_, framebuffer_h_);
+		system_->set_framebuffer_scale(framebuffer_w_, framebuffer_h_);
 		system_.reset();
 	}
 
 	void
-	GuiFeature::on_input_event(const input::InputEvent& event) noexcept
+	GuiFeature::onInputEvent(const input::InputEvent& event) noexcept
 	{
 		switch (event.event)
 		{
@@ -148,25 +153,24 @@ namespace octoon
 	}
 
 	void
-	GuiFeature::on_frame_begin() noexcept
+	GuiFeature::onFrameBegin() noexcept
 	{
-		system_->render_begin();
+		system_->newFrame();
 	}
 
 	void
-	GuiFeature::on_frame() noexcept
+	GuiFeature::onFrame() noexcept
 	{
-		static bool isOpened = true;
-		if (isOpened)
-			imgui::show_test_window(&isOpened);
+		GameObjectManager::instance()->onGui();
 
-		GameObjectManager::instance()->on_gui();
+		auto graphics = this->getFeature<GraphicsFeature>();
+		if (graphics)
+			system_->render(*graphics->getContext());
 	}
 
 	void
-	GuiFeature::on_frame_end() noexcept
+	GuiFeature::onFrameEnd() noexcept
 	{
-		system_->render_end();
 	}
 }
 #endif

@@ -18,7 +18,7 @@ namespace octoon
 			System() noexcept;
 			~System() noexcept;
 
-			bool open(input::WindHandle window) except;
+			bool open(input::WindHandle window, const graphics::GraphicsDevicePtr& device) except;
 			void close() noexcept;
 
 			bool inject_mouse_move(float absx, float absy) noexcept;
@@ -39,8 +39,9 @@ namespace octoon
 
 			bool load_font(const char* path, float font_size = 15) noexcept;
 
-			void render_begin() noexcept;
-			void render_end() noexcept;
+			void newFrame() noexcept;
+
+			void render(graphics::GraphicsContext& context) noexcept;
 
 		private:
 			System(const System&) noexcept = delete;
@@ -54,8 +55,6 @@ namespace octoon
 
 			ImGuiContext* ui_context_;
 
-			input::WindHandle window_;
-
 			graphics::GraphicsDataPtr vbo_;
 			graphics::GraphicsDataPtr ibo_;
 			graphics::GraphicsTexturePtr texture_;
@@ -65,8 +64,6 @@ namespace octoon
 			graphics::GraphicsUniformSetPtr decal_;
 
 			graphics::GraphicsDevicePtr device_;
-			graphics::GraphicsContextPtr context_;
-			graphics::GraphicsSwapchainPtr swapchain_;
 			graphics::GraphicsPipelinePtr pipeline_;
 		};
 	}

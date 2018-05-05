@@ -300,7 +300,7 @@ namespace octoon
 				if ((std::size_t)parent > size)
 					_bones[i].setTransform(_bones[i].getLocalTransform());
 				else
-					_bones[i].setTransform(transform_multiply(_bones[parent].getTransform(), _bones[i].getLocalTransform()));
+					_bones[i].setTransform(transformMultiply(_bones[parent].getTransform(), _bones[i].getLocalTransform()));
 			}
 		}
 
@@ -310,7 +310,7 @@ namespace octoon
 			{
 				auto& parent = _bones.at(bone.getParent());
 				updateBoneMatrix(parent);
-				bone.setTransform(transform_multiply(parent.getTransform(), bone.getLocalTransform()));
+				bone.setTransform(transformMultiply(parent.getTransform(), bone.getLocalTransform()));
 			}
 			else
 			{
@@ -368,7 +368,7 @@ namespace octoon
 						euler.y = std::max(ik.child[j].maximumDegrees.y, euler.y);
 						euler.z = std::max(ik.child[j].maximumDegrees.z, euler.z);
 
-						q0.make_rotation(euler);
+						q0.makeRotation(euler);
 					}
 
 					Quaternion qq = math::cross(bone.getRotation(), q0);
@@ -382,7 +382,7 @@ namespace octoon
 		void AnimationProperty::updateTransform(Bone& bone, const float3& translate, const Quaternion& rotate) noexcept
 		{
 			float4x4 transform;
-			transform.make_rotation(rotate);
+			transform.makeRotation(rotate);
 			transform.set_translate(translate);
 
 			bone.setRotation(rotate);
@@ -441,7 +441,7 @@ namespace octoon
 			{
 				float x11 = xa * ct;
 				float x12 = xa + (xb - xa) * ct;
-				float x13 = xb + (1.0 - xb) * ct;
+				float x13 = xb + (1.0f - xb) * ct;
 
 				float x21 = x11 + (x12 - x11) * ct;
 				float x22 = x12 + (x13 - x12) * ct;
@@ -452,7 +452,7 @@ namespace octoon
 				{
 					float y11 = ya * ct;
 					float y12 = ya + (yb - ya) * ct;
-					float y13 = yb + (1.0 - yb) * ct;
+					float y13 = yb + (1.0f - yb) * ct;
 
 					float y21 = y11 + (y12 - y11) * ct;
 					float y22 = y12 + (y13 - y12) * ct;
@@ -489,7 +489,7 @@ namespace octoon
 				auto& anim1 = this->getBoneAnimation(motions[ms.m1]);
 
 				int diff = anim1.getFrameNo() - anim0.getFrameNo();
-				float a0 = frame - anim0.getFrameNo();
+				float a0 = static_cast<float>(frame - anim0.getFrameNo());
 				float ratio = a0 / diff;
 
 				float tx = BezierEval(anim0.getInterpolation().interpX, ratio);

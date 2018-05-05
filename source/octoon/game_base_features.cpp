@@ -1,6 +1,7 @@
 #include <octoon/game_base_features.h>
 #include <octoon/game_object_manager.h>
 #include <octoon/game_scene_manager.h>
+#include <octoon/model/text_system.h>
 
 namespace octoon
 {
@@ -8,30 +9,32 @@ namespace octoon
 
 	GameBaseFeatures::GameBaseFeatures() noexcept
 	{
+		model::TextSystem::instance()->setup();
 	}
 
 	GameBaseFeatures::~GameBaseFeatures() noexcept
 	{
+		model::TextSystem::instance()->close();
 	}
 
 	void
-	GameBaseFeatures::on_frame_begin() noexcept
+	GameBaseFeatures::onFrameBegin() noexcept
 	{
-		GameSceneManager::instance()->on_frame_begin();
-		GameObjectManager::instance()->on_frame_begin();
+		GameSceneManager::instance()->onFrameBegin();
+		GameObjectManager::instance()->onFrameBegin();
 	}
 
 	void
-	GameBaseFeatures::on_frame() noexcept
+	GameBaseFeatures::onFrame() noexcept
 	{
-		GameSceneManager::instance()->on_frame();
-		GameObjectManager::instance()->on_frame();
+		GameSceneManager::instance()->onFrame();
+		GameObjectManager::instance()->onFrame();
 	}
 
 	void
-	GameBaseFeatures::on_frame_end() noexcept
+	GameBaseFeatures::onFrameEnd() noexcept
 	{
-		GameSceneManager::instance()->on_frame_end();
-		GameObjectManager::instance()->on_frame_end();
+		GameSceneManager::instance()->onFrameEnd();
+		GameObjectManager::instance()->onFrameEnd();
 	}
 }
