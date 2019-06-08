@@ -1,8 +1,11 @@
 #include <octoon/octoon-c.h>
+#include <iostream>
+#include <octoon/process/command.h>
 #include "main_controller.h"
 
 int main(int argc, const char* argv[])
 {
+	std::cout << octoon::process::Command::run("dir").output();
 	if (!::OctoonInit(argv[0], ""))
 		return 1;
 
