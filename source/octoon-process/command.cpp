@@ -32,11 +32,22 @@ namespace octoon
             return *this;
         }
 
-        
+		Command& Command::current_dir(const std::string& path)
+		{
+			this->current_dir_ = path;
+			return *this;
+		}
 
         std::string Command::output()
         {
             std::string raw_cmd;
+			if (current_dir_ != "")
+			{
+				raw_cmd += "cd ";
+				raw_cmd += this->current_dir_;
+				raw_cmd += " && ";
+			}
+			
             raw_cmd += this->cmd_;
             for(const auto& each: this->args_)
             {
@@ -77,10 +88,42 @@ namespace octoon
             return out;
         }
 
-        Child spawn()
+        Child Command::spawn()
         {
             Child child;
             return child;
+        }
+
+        int Command::status()
+        {
+			std::string raw_cmd;
+			if (current_dir_ != "")
+			{
+				raw_cmd += "cd ";
+				raw_cmd += this->current_dir_;
+				raw_cmd += " && ";
+			}
+			raw_cmd += this->cmd_;
+			for (const auto& each : this->args_)
+			{
+				raw_cmd += " ";
+				raw_cmd += each;
+			}
+
+			// run cmd
+			int exit_code = 0;
+			FILE *fp = 0;
+#if defined(_MSC_VER) || defined (_WIN32) || defined(_WIN64)
+			fp = _popen(raw_cmd.c_str(), "r");
+			exit_code = _pclose(fp);
+			fp = 0;
+
+#else
+			fp = popen(raw_cmd.c_str(), "r")
+			exit_code = pclose(fp);
+			fp = 0;
+#endif
+			return exit_code / 256;
         }
 
         Command::~Command()

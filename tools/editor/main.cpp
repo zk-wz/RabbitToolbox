@@ -5,7 +5,7 @@
 
 int main(int argc, const char* argv[])
 {
-	std::cout << octoon::process::Command::run("dir").output();
+	std::cout << octoon::process::Command::run("dir").status();
 	if (!::OctoonInit(argv[0], ""))
 		return 1;
 
